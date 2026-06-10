@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Итгэлцэл | Хөрөнгө оруулалт | Yesun Shijir Invest</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    /* Sub nav investment */
+
+
+    /* Итгэлцэл хүснэгт */
+    .trust-table { width: 100%; border-collapse: collapse; }
+    .trust-table th {
+      background: var(--primary); color: #fff; padding: 14px 18px;
+      text-align: left; font-size: 13px; font-weight: 700;
+    }
+    .trust-table th:first-child { border-radius: 8px 0 0 0; }
+    .trust-table th:last-child  { border-radius: 0 8px 0 0; }
+    .trust-table td { padding: 14px 18px; font-size: 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .trust-table tr:last-child td { border-bottom: none; }
+    .trust-table tr:nth-child(even) td { background: var(--bg-low); }
+    .trust-table .row-label { font-weight: 700; color: var(--text-muted); font-size: 13px; }
+    .trust-table .highlight { color: var(--primary); font-weight: 700; }
+
+    /* Calculator */
+    .calc-box {
+      background: var(--bg-low); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 32px;
+    }
+    .calc-result {
+      background: var(--bg-white); border: 2px solid var(--primary);
+      border-radius: var(--radius-xl); padding: 24px; margin-top: 20px;
+      display: none;
+    }
+    .calc-result.visible { display: block; }
+    .calc-result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 640px) { .calc-result-grid { grid-template-columns: 1fr; } }
+    .calc-result-item { text-align: center; padding: 16px; background: var(--bg-low); border-radius: var(--radius-lg); }
+    .calc-result-label { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 6px; }
+    .calc-result-value { font-size: 22px; font-weight: 800; color: var(--primary); }
+
+    /* Form page */
+    #requestForm { display: none; }
+    #requestForm.visible { display: block; }
+    #formContent { display: none; }
+    #formContent.visible { display: block; }
+
+    .type-toggle {
+      display: flex; gap: 0; border: 1.5px solid var(--border);
+      border-radius: var(--radius-md); overflow: hidden; width: fit-content;
+    }
+    .type-toggle button {
+      padding: 10px 24px; font-size: 14px; font-weight: 700;
+      border: none; background: transparent; color: var(--text-muted);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .type-toggle button.active {
+      background: var(--primary); color: #fff;
+    }
+
+    .radio-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .radio-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-md); cursor: pointer; transition: border-color 0.2s;
+    }
+    .radio-option:has(input:checked) { border-color: var(--primary); background: rgba(0,94,38,0.04); }
+    .radio-option input[type="radio"] { accent-color: var(--primary); }
+    .radio-option span { font-size: 14px; font-weight: 600; }
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+
+
+
+<main class="container section-pad">
+  <div class="breadcrumb">
+    <a href="index.html">Нүүр</a><span class=""></span>
+    <span>Хөрөнгө оруулалт</span><span class=""></span>
+    <span>Итгэлцэл</span>
+  </div>
+
+  <!-- ── SECTION 1: Итгэлцэл тайлбар хүснэгт ── -->
+  <div id="mainContent">
+    <div style="margin-bottom:32px">
+      <span class="page-tag">Хөрөнгө оруулалт</span>
+      <h1 class="page-title">Итгэлцэл</h1>
+    </div>
+
+    <!-- Итгэлцэл гэж юу вэ? -->
+    <div class="card" style="margin-bottom:40px">
+      <h2 style="font-size:20px;font-weight:800;margin-bottom:20px" data-mn="Итгэлцэл гэж юу вэ?" data-en="What is a Trust Fund?">
+        Итгэлцэл гэж юу вэ?
+      </h2>
+      <div class="table-wrap">
+        <table class="trust-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th data-mn="Хүүхдийн боловсрол хуримтлал" data-en="Children's Education Savings">Хүүхдийн боловсрол хуримтлал</th>
+              <th data-mn="Зорилготой хуримтлал" data-en="Goal-Based Savings">Зорилготой хуримтлал</th>
+              <th data-mn="Үр шим өсгөх хугацаат хуримтлал" data-en="Growth Savings">Үр шим өсгөх хугацаат хуримтлал</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-label">Доод хэмжээ</td>
+              <td class="highlight">1,000,000 ₮</td>
+              <td class="highlight">20,000,000 ₮</td>
+              <td class="highlight">50,000,000 ₮</td>
+            </tr>
+            <tr>
+              <td class="row-label">Хугацаа</td>
+              <td>12–24 сар</td>
+              <td>6–24 сар</td>
+              <td>6–24 сар</td>
+            </tr>
+            <tr>
+              <td class="row-label">Үр шим олгох</td>
+              <td>Хугацааны эцэст</td>
+              <td>Хугацааны эцэст</td>
+              <td>Сар, улирал, хугацааны эцэст</td>
+            </tr>
+            <tr>
+              <td class="row-label">Итгэлцэл барьцаалан зээл авах</td>
+              <td><span class="badge badge-green">Тийм</span></td>
+              <td><span class="badge badge-green">Тийм</span></td>
+              <td><span class="badge badge-green">Тийм</span></td>
+            </tr>
+            <tr>
+              <td class="row-label">Давуу тал</td>
+              <td>Хүүхдийн ирээдүйн боловсролд зориулсан аюулгүй хуримтлал</td>
+              <td>Тодорхой зорилгод тохирсон уян хатан нөхцөл</td>
+              <td>Хамгийн өндөр өгөөж, давтамжтай ашиг хүртэх боломж</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── SECTION 2: Тооцоолуур ── -->
+    <div class="calc-box animate-in">
+      <h2 style="font-size:20px;font-weight:800;margin-bottom:20px">
+        <span class="material-symbols-outlined" style="vertical-align:middle;color:var(--primary);margin-right:8px">calculate</span>
+        Тооцоолуур
+      </h2>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px">
+        <div class="form-group">
+          <label class="form-label" for="calcType">Бүтээгдэхүүн</label>
+          <select id="calcType" class="form-select">
+            <option value="education" data-rate="16">Хүүхдийн боловсрол (16%)</option>
+            <option value="goal"      data-rate="18">Зорилготой хуримтлал (18%)</option>
+            <option value="growth"    data-rate="21">Үр шим өсгөх (21%)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="calcAmount">Дүн (₮)</label>
+          <input id="calcAmount" type="number" class="form-input" value="10000000" min="1000000" placeholder="10,000,000" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="calcMonths">Хугацаа (сар)</label>
+          <select id="calcMonths" class="form-select">
+            <option value="6">6 сар</option>
+            <option value="12" selected>12 сар</option>
+            <option value="24">24 сар</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="calculateTrust()">
+        <span class="material-symbols-outlined" style="font-size:18px">calculate</span>
+        Тооцоолох
+      </button>
+
+      <!-- Result -->
+      <div class="calc-result" id="calcResult">
+        <h3 style="font-size:16px;font-weight:800;margin-bottom:16px;color:var(--primary)">Тооцооллын үр дүн</h3>
+        <div class="calc-result-grid">
+          <div class="calc-result-item">
+            <p class="calc-result-label">Хөрөнгө оруулалт</p>
+            <p class="calc-result-value" id="calcPrincipal">—</p>
+          </div>
+          <div class="calc-result-item">
+            <p class="calc-result-label">Нийт өгөөж</p>
+            <p class="calc-result-value" id="calcReturn">—</p>
+          </div>
+          <div class="calc-result-item" style="border: 2px solid var(--primary)">
+            <p class="calc-result-label">Нийт авах дүн</p>
+            <p class="calc-result-value" id="calcTotal">—</p>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:12px;font-family:var(--font-mono)">
+          * Тооцоолол нь ойролцоо утга. Бодит нөхцөлийн талаар менежертэй зөвлөлдөнө үү.
+        </p>
+      </div>
+    </div>
+
+    <!-- CTA: Хүсэлт илгээх товч -->
+    <div style="text-align:center;margin-top:40px;padding:40px;background:var(--bg-low);border-radius:var(--radius-xl);border:1px solid var(--border)">
+      <span class="material-symbols-outlined" style="font-size:48px;color:var(--primary);margin-bottom:12px;display:block">savings</span>
+      <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">Хөрөнгө оруулах бэлэн үү?</h3>
+      <p style="color:var(--text-muted);margin-bottom:24px">Манай менежертэй холбогдож, таны хэрэгцээнд тохирсон бүтээгдэхүүнийг сонгоорой.</p>
+      <button class="btn btn-primary btn-lg" onclick="showRequestForm()">
+        <span class="material-symbols-outlined">send</span>
+        Хүсэлт илгээх
+      </button>
+    </div>
+  </div>
+
+  <!-- ── REQUEST FORM ── -->
+  <div id="requestForm">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:32px">
+      <button class="btn btn-ghost btn-sm" onclick="showMainContent()">
+        <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
+        Буцах
+      </button>
+      <div>
+        <span class="page-tag">Хөрөнгө оруулалт</span>
+        <h1 style="font-size:28px;font-weight:800">Хүсэлт илгээх</h1>
+      </div>
+    </div>
+
+    <div style="max-width:640px">
+      <!-- Success message (hidden until submit) -->
+      <div id="formSuccess" style="display:none" class="alert alert-success animate-in">
+        <span class="material-symbols-outlined" style="font-size:24px">check_circle</span>
+        <div>
+          <p style="font-weight:800;margin-bottom:4px">Хүсэлт амжилттай илгээгдлээ!</p>
+          <p style="font-size:13px;opacity:0.8">Манай баг ажлын 1–2 өдрийн дотор тантай холбогдох болно.</p>
+        </div>
+      </div>
+
+      <div id="formContent" class="visible">
+        <!-- Хувь хүн / Байгууллага -->
+        <div class="form-group" style="margin-bottom:24px">
+          <label class="form-label">Хувь хүн / Байгууллага</label>
+          <div class="type-toggle">
+            <button id="btnPersonal"  class="active" onclick="setType('personal')">Хувь хүн</button>
+            <button id="btnOrganization"              onclick="setType('org')">Байгууллага</button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div class="form-group">
+            <label class="form-label" for="f_last">Овог <span class="req">*</span></label>
+            <input id="f_last" type="text" class="form-input" data-validate="req" placeholder="Овог" />
+            <p class="form-error"></p>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f_first">Нэр <span class="req">*</span></label>
+            <input id="f_first" type="text" class="form-input" data-validate="req" placeholder="Нэр" />
+            <p class="form-error"></p>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label" for="f_email">И-мэйл <span class="req">*</span></label>
+          <input id="f_email" type="email" class="form-input" data-validate="required|email" placeholder="name@example.com" />
+          <p class="form-error"></p>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label" for="f_phone">Утасны дугаар</label>
+          <input id="f_phone" type="tel" class="form-input" data-validate="phone" placeholder="9911 1234" />
+          <p class="form-error"></p>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label" for="f_country">Оршин суугаа улс</label>
+          <select id="f_country" class="form-select">
+            <option value="MN" selected>🇲🇳 Монгол</option>
+            <option value="CN">🇨🇳 Хятад</option>
+            <option value="RU">🇷🇺 Орос</option>
+            <option value="US">🇺🇸 АНУ</option>
+            <option value="OTHER">Бусад</option>
+          </select>
+        </div>
+
+        <!-- Хөрөнгө оруулалтын хэмжээ -->
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Хөрөнгө оруулалтын хэмжээ <span class="req">*</span></label>
+          <div class="radio-group" id="amountGroup">
+            <label class="radio-option"><input type="radio" name="amount" value="1" required/><span>50 сая хүртэл</span></label>
+            <label class="radio-option"><input type="radio" name="amount" value="2"/><span>51–100 сая</span></label>
+            <label class="radio-option"><input type="radio" name="amount" value="3"/><span>101–400 сая</span></label>
+            <label class="radio-option"><input type="radio" name="amount" value="4"/><span>400 саяас дээш</span></label>
+          </div>
+          <p class="form-error" id="amountError"></p>
+        </div>
+
+        <!-- Хугацаа -->
+        <div class="form-group" style="margin-bottom:32px">
+          <label class="form-label">Хугацаа <span class="req">*</span></label>
+          <div class="radio-group" id="termGroup">
+            <label class="radio-option"><input type="radio" name="term" value="12" required/><span>1 жил (12 сар)</span></label>
+            <label class="radio-option"><input type="radio" name="term" value="24"/><span>2 жил (24 сар)</span></label>
+          </div>
+          <p class="form-error" id="termError"></p>
+        </div>
+
+        <button class="btn btn-primary btn-lg" onclick="submitForm()" style="width:100%">
+          <span class="material-symbols-outlined">send</span>
+          Илгээх
+        </button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/form-validation.js"></script>
+<script src="js/nav.js"></script>
+<script>
+  // ── Хуудасны state ────────────────────────────────────────────────────────
+  function showRequestForm() {
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('requestForm').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Real-time validation холбох
+    if (window.FormValidator) {
+      const form = document.getElementById('formContent');
+      window.FormValidator.attachRealTime(form);
+    }
+  }
+  function showMainContent() {
+    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('requestForm').style.display = 'none';
+  }
+
+  // URL-д ?request=true байвал шууд form харуулна
+  if (new URLSearchParams(window.location.search).get('request') === 'true') {
+    document.addEventListener('DOMContentLoaded', showRequestForm);
+  }
+
+  // ── Type toggle ───────────────────────────────────────────────────────────
+  function setType(type) {
+    document.getElementById('btnPersonal').classList.toggle('active', type === 'personal');
+    document.getElementById('btnOrganization').classList.toggle('active', type === 'org');
+  }
+
+  // ── Calculator ────────────────────────────────────────────────────────────
+  function calculateTrust() {
+    const typeEl = document.getElementById('calcType');
+    const rate   = Number(typeEl.options[typeEl.selectedIndex].getAttribute('data-rate'));
+    const amount = Number(document.getElementById('calcAmount').value) || 0;
+    const months = Number(document.getElementById('calcMonths').value) || 12;
+
+    const annualRate = rate / 100;
+    const interest   = amount * annualRate * (months / 12);
+    const total      = amount + interest;
+
+    const fmt = (n) => new Intl.NumberFormat('mn-MN').format(Math.round(n)) + ' ₮';
+    document.getElementById('calcPrincipal').textContent = fmt(amount);
+    document.getElementById('calcReturn').textContent    = fmt(interest);
+    document.getElementById('calcTotal').textContent     = fmt(total);
+    document.getElementById('calcResult').classList.add('visible');
+  }
+
+  // ── Form submit ───────────────────────────────────────────────────────────
+  function submitForm() {
+    let valid = true;
+
+    // Standard field validation
+    const fields = document.querySelectorAll('#formContent [data-validate]');
+    fields.forEach(f => { if (window.FormValidator && !window.FormValidator.validateField(f)) valid = false; });
+
+    // Radio group шалгах
+    if (!document.querySelector('input[name="amount"]:checked')) {
+      document.getElementById('amountError').textContent = 'Хэмжээгээ сонгоно уу.';
+      document.getElementById('amountError').classList.add('visible');
+      valid = false;
+    } else {
+      document.getElementById('amountError').classList.remove('visible');
+    }
+    if (!document.querySelector('input[name="term"]:checked')) {
+      document.getElementById('termError').textContent = 'Хугацаагаа сонгоно уу.';
+      document.getElementById('termError').classList.add('visible');
+      valid = false;
+    } else {
+      document.getElementById('termError').classList.remove('visible');
+    }
+
+    if (!valid) return;
+
+    // Success
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'flex';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Мэдээ мэдээлэл | Есөн Шижир Инвест</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    .news-tabs { display:flex; gap:4px; margin-bottom:32px; flex-wrap:wrap; }
+    .news-tab {
+      padding:10px 22px; border-radius:99px; font-size:14px; font-weight:700;
+      font-family:var(--font-head); border:1.5px solid var(--border);
+      background:transparent; color:var(--text-muted); cursor:pointer; transition:all .15s;
+    }
+    .news-tab.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    html.dark .news-tab.active { color:#000; }
+    .news-tab:hover:not(.active) { border-color:var(--primary); color:var(--primary); }
+
+    .news-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    @media(max-width:1024px){.news-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:640px){.news-grid{grid-template-columns:1fr;}}
+
+    .news-card {
+      background:var(--bg-white); border:1px solid var(--border);
+      border-radius:var(--radius-xl); overflow:hidden;
+      transition:border-color .2s, box-shadow .2s, transform .2s;
+      cursor:pointer; display:flex; flex-direction:column;
+    }
+    .news-card:hover { border-color:var(--primary); box-shadow:var(--shadow-lg); transform:translateY(-4px); }
+    .news-card-img {
+      width:100%; aspect-ratio:16/9; overflow:hidden;
+      background:var(--bg-container); flex-shrink:0;
+    }
+    .news-card-img img { width:100%; height:100%; object-fit:cover; transition:transform .3s; }
+    .news-card:hover .news-card-img img { transform:scale(1.04); }
+    .news-card-body { padding:20px; flex:1; display:flex; flex-direction:column; }
+    .news-card-cat {
+      font-size:11px; font-weight:700; font-family:var(--font-mono);
+      letter-spacing:.08em; text-transform:uppercase;
+      color:var(--primary); margin-bottom:8px;
+    }
+    .news-card-title { font-size:16px; font-weight:700; font-family:var(--font-head); line-height:1.45; margin-bottom:10px; flex:1; }
+    .news-card-date  { font-size:12px; color:var(--text-muted); font-family:var(--font-mono); margin-bottom:14px; }
+    .news-card-link  { display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:700; color:var(--primary); transition:gap .15s; }
+    .news-card:hover .news-card-link { gap:10px; }
+
+    /* Loading skeleton */
+    .skeleton { background:var(--bg-container); border-radius:4px; animation:shimmer 1.5s infinite; }
+    @keyframes shimmer { 0%,100%{opacity:.6} 50%{opacity:1} }
+
+    /* Pagination */
+    .pagination { display:flex; gap:8px; justify-content:center; margin-top:40px; }
+    .page-btn {
+      width:40px; height:40px; border-radius:var(--radius-md);
+      border:1.5px solid var(--border); background:var(--bg-white);
+      font-size:14px; font-weight:700; color:var(--text-muted); cursor:pointer;
+      display:flex; align-items:center; justify-content:center; transition:all .15s;
+    }
+    .page-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    html.dark .page-btn.active { color:#000; }
+    .page-btn:hover:not(.active) { border-color:var(--primary); color:var(--primary); }
+    .page-btn:disabled { opacity:.4; cursor:not-allowed; }
+
+    .empty-state { text-align:center; padding:80px 20px; color:var(--text-muted); }
+    .empty-state .material-symbols-outlined { font-size:56px; opacity:.3; display:block; margin-bottom:12px; }
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<main>
+  <div class="container section-pad">
+    <div class="breadcrumb">
+      <a href="index.html">Нүүр</a><span>/</span>
+      <span>Мэдээ мэдээлэл</span>
+    </div>
+    <div style="margin-bottom:32px">
+      <span class="page-tag">Мэдээ мэдээлэл</span>
+      <h1 class="page-title" data-mn="Мэдээ мэдээлэл" data-en="News & Updates">Мэдээ мэдээлэл</h1>
+    </div>
+
+    <!-- Category tabs -->
+    <div class="news-tabs">
+      <button class="news-tab active" onclick="loadNews('all')"      data-mn="Бүгд"                data-en="All">Бүгд</button>
+      <button class="news-tab"        onclick="loadNews('breaking')" data-mn="Цаг үеийн мэдээ"    data-en="Breaking News">Цаг үеийн мэдээ</button>
+      <button class="news-tab"        onclick="loadNews('social')"   data-mn="Нийгмийн хариуцлага" data-en="Social Responsibility">Нийгмийн хариуцлага</button>
+      <button class="news-tab"        onclick="loadNews('advice')"   data-mn="Заавар зөвлөмж"     data-en="Advice">Заавар зөвлөмж</button>
+    </div>
+
+    <!-- News grid -->
+    <div class="news-grid" id="newsGrid"></div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="pagination"></div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+<script>
+/*
+  Backend integration guide:
+  Replace MOCK_NEWS with a real fetch:
+    const res = await fetch(`/api/news?cat=${cat}&page=${page}&limit=${PER_PAGE}`);
+    const data = await res.json();
+    // data = { items: [...], total: N }
+*/
+
+const CATEGORIES = { breaking:'Цаг үеийн мэдээ', social:'Нийгмийн хариуцлага', advice:'Заавар зөвлөмж' };
+
+// Mock data — backend replaces this
+const MOCK_NEWS = Array.from({length:18}, (_,i) => ({
+  id: i+1,
+  cat: ['breaking','social','advice'][i%3],
+  title: ['Есөн Шижир Инвест шинэ салбараа нээлтэй боллоо','Нийгмийн хариуцлагын хүрээнд ногоон санаачилга','Зээл авахдаа анхаарах зүйлс: мэргэжилтний зөвлөгөө'][i%3],
+  date: `2026-0${Math.min(Math.floor(i/3)+1,6)}-${String(10+i%10).padStart(2,'0')}`,
+  img: null,
+  excerpt: ['Байгууллага Улаанбаатар хотын шинэ дүүрэгт салбараа нээж, харилцагчдад үйлчилгээгээ улам ойртуулав.','Байгаль орчны тогтвортой байдлын төлөө байгууллагын манлайллын дор ногоон санаачилга хэрэгжиж байна.','Зээл авах үйл явцын талаарх мэргэжлийн зөвлөгөө болон практик мэдээлэл.'][i%3],
+}));
+
+const PER_PAGE = 9;
+let currentCat = 'all';
+let currentPage = 1;
+
+function getFiltered(cat) {
+  return cat === 'all' ? MOCK_NEWS : MOCK_NEWS.filter(n => n.cat === cat);
+}
+
+function renderNews(items) {
+  const grid = document.getElementById('newsGrid');
+  if (!items.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <span class="material-symbols-outlined">article</span>
+      <p>Мэдээ олдсонгүй</p>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = items.map(n => `
+    <div class="news-card animate-in">
+      <div class="news-card-img">
+        ${n.img
+          ? `<img src="${n.img}" alt="${n.title}"/>`
+          : `<div style="width:100%;height:100%;background:linear-gradient(135deg,var(--bg-container),var(--bg-low));display:flex;align-items:center;justify-content:center"><span class="material-symbols-outlined" style="font-size:40px;opacity:.25;color:var(--primary)">article</span></div>`}
+      </div>
+      <div class="news-card-body">
+        <p class="news-card-cat">${CATEGORIES[n.cat]||n.cat}</p>
+        <h3 class="news-card-title">${n.title}</h3>
+        <p class="news-card-date">${n.date}</p>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:14px">${n.excerpt}</p>
+        <a href="news/${n.id}.html" class="news-card-link">
+          Дэлгэрэнгүй <span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderPagination(total) {
+  const totalPages = Math.ceil(total / PER_PAGE);
+  if (totalPages <= 1) { document.getElementById('pagination').innerHTML=''; return; }
+  let h = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}><span class="material-symbols-outlined" style="font-size:16px">chevron_left</span></button>`;
+  for (let i=1; i<=totalPages; i++) {
+    h += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  h += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}><span class="material-symbols-outlined" style="font-size:16px">chevron_right</span></button>`;
+  document.getElementById('pagination').innerHTML = h;
+}
+
+function goPage(p) {
+  const filtered = getFiltered(currentCat);
+  if (p<1||p>Math.ceil(filtered.length/PER_PAGE)) return;
+  currentPage = p;
+  const slice = filtered.slice((p-1)*PER_PAGE, p*PER_PAGE);
+  renderNews(slice);
+  renderPagination(filtered.length);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function loadNews(cat) {
+  currentCat = cat;
+  currentPage = 1;
+  document.querySelectorAll('.news-tab').forEach((t,i)=>{
+    t.classList.toggle('active',['all','breaking','social','advice'][i]===cat);
+  });
+  const filtered = getFiltered(cat);
+  renderNews(filtered.slice(0, PER_PAGE));
+  renderPagination(filtered.length);
+}
+
+// Init — check URL param
+const urlCat = new URLSearchParams(window.location.search).get('cat') || 'all';
+loadNews(urlCat);
+</script>
+</body>
+</html>

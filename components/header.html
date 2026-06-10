@@ -1,0 +1,229 @@
+<style>
+header {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  transition: background .3s;
+}
+html.dark header { background: rgba(22,22,22,0.78); }
+
+.hdr-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 76px; max-width: 1280px; margin: 0 auto; padding: 0 56px;
+}
+@media(max-width:768px){.hdr-inner{padding:0 20px;height:68px;}}
+
+.hdr-logo { display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0; }
+.hdr-logo img { height:60px; width:auto; }
+
+.nav-desktop { display:flex; align-items:center; height:100%; gap:2px; }
+@media(max-width:1100px){.nav-desktop{display:none;}}
+
+.nav-link {
+  padding:0 14px; height:76px; display:flex; align-items:center;
+  font-size:14px; font-weight:600; font-family:'Plus Jakarta Sans',sans-serif;
+  color:var(--text-muted); border-bottom:2px solid transparent;
+  transition:color .15s, border-color .15s; white-space:nowrap;
+  text-decoration:none; cursor:pointer; background:none; border-top:none;
+  border-left:none; border-right:none; gap:3px;
+}
+.nav-link:hover { color:var(--primary); }
+.nav-link.active { color:var(--primary); border-bottom-color:var(--primary); }
+
+.nav-dropdown { position:relative; height:76px; display:flex; align-items:center; }
+.nav-dd-menu {
+  position:absolute; top:calc(100% + 2px); left:0; min-width:220px;
+  background:var(--bg-surface); border:1px solid var(--border);
+  border-radius:10px; box-shadow:0 8px 28px rgba(0,0,0,.11);
+  display:none; z-index:200; padding:5px 0;
+}
+html.dark .nav-dd-menu { box-shadow:0 8px 28px rgba(0,0,0,.42); }
+.nav-dd-menu.open { display:block; }
+.nav-dd-menu a {
+  display:block; padding:10px 18px; font-size:14px; font-weight:600;
+  font-family:'Plus Jakarta Sans',sans-serif; color:var(--text-sec);
+  transition:background .1s, color .1s; text-decoration:none;
+}
+.nav-dd-menu a:hover { background:var(--bg-low); color:var(--primary); }
+.nav-dd-menu a.active { color:var(--primary); }
+
+.nav-hdr-actions { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+#langToggle {
+  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
+  letter-spacing:.05em; padding:6px 12px; border-radius:99px;
+  border:1.5px solid var(--border); background:transparent;
+  color:var(--text-muted); cursor:pointer; transition:all .15s;
+}
+#langToggle:hover { border-color:var(--primary); color:var(--primary); }
+.icon-btn {
+  width:38px; height:38px; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; color:var(--text-muted); background:transparent;
+  border:none; cursor:pointer; transition:background .15s, color .15s;
+}
+.icon-btn:hover { background:var(--bg-container); color:var(--primary); }
+.btn-newtrekh {
+  background:var(--primary); color:#fff; padding:9px 22px; border-radius:99px;
+  border:none; font-size:13px; font-weight:700; font-family:'Plus Jakarta Sans',sans-serif;
+  cursor:pointer; transition:all .15s; text-decoration:none;
+  display:inline-flex; align-items:center;
+}
+.btn-newtrekh:hover { background:var(--primary-hover); transform:translateY(-1px); }
+html.dark .btn-newtrekh { color:#000; }
+
+#hamburger {
+  display:none; width:38px; height:38px; border-radius:50%;
+  align-items:center; justify-content:center; background:transparent;
+  border:none; color:var(--text-muted); cursor:pointer;
+}
+@media(max-width:1100px){#hamburger{display:flex;}}
+
+#mobileMenu {
+  display:none; position:fixed; top:68px; left:0; right:0; bottom:0;
+  background:var(--bg-surface); z-index:99; flex-direction:column;
+  padding:8px 20px 24px; border-top:1px solid var(--border); overflow-y:auto;
+}
+#mobileMenu.open { display:flex; }
+#mobileMenu a {
+  padding:13px 8px; font-size:15px; font-weight:600;
+  font-family:'Plus Jakarta Sans',sans-serif; color:var(--text-sec);
+  border-bottom:1px solid var(--border); text-decoration:none;
+}
+#mobileMenu a.active { color:var(--primary); }
+.mob-cat {
+  font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+  color:var(--text-muted); font-family:'JetBrains Mono',monospace;
+  padding:14px 8px 4px;
+}
+
+/* Sub-menu (Удирдлагын баг → hover баруун тийш гарна) */
+.nav-sub-wrap { position:relative; }
+.nav-dd-sub-trigger {
+  display:flex; align-items:center; gap:4px; padding:10px 18px;
+  font-size:14px; font-weight:600; font-family:'Plus Jakarta Sans',sans-serif;
+  color:var(--text-sec); transition:background .1s,color .1s;
+  text-decoration:none; cursor:pointer; width:100%;
+  justify-content:space-between;
+}
+.nav-dd-sub-trigger:hover { background:var(--bg-low); color:var(--primary); }
+.nav-sub-menu {
+  position:absolute; left:100%; top:-5px;
+  min-width:220px;
+  background:var(--bg-surface); border:1px solid var(--border);
+  border-radius:10px; box-shadow:0 8px 28px rgba(0,0,0,.11);
+  display:none; z-index:300; padding:5px 0;
+}
+html.dark .nav-sub-menu { box-shadow:0 8px 28px rgba(0,0,0,.42); }
+.nav-sub-menu.open { display:block; }
+.nav-sub-menu a {
+  display:block; padding:10px 18px; font-size:14px; font-weight:600;
+  font-family:'Plus Jakarta Sans',sans-serif; color:var(--text-sec);
+  transition:background .1s,color .1s; text-decoration:none;
+}
+.nav-sub-menu a:hover { background:var(--bg-low); color:var(--primary); }
+</style>
+
+<header>
+  <div class="hdr-inner">
+
+    <a class="hdr-logo" href="/index.html">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIxU-A1r3NCaYt1hOmYEzStBc50sffz9bfC4ANRutEkz2VkPYxzyHH4VXV9PGWHNsPbIBjrBKpTDU7r7u1wF5C2cOM7kZZHnCYTLBfh5xRn3GfDgqzo9_3vHt_9r3bLWnvS19U4XvXz0sdjqsXHVoC7G8YBtK9XMFGHwj1-GCvgSxRGQBJshyHJyf8neiHQ7TBWeRSImqFVfVOVPCiU4gL_Lf0VS5NbhAKzT5Vc5fXWJINb0rMD7OR1yTttgjq9-MvZxIINapTWy8" alt="Есөн Шижир Инвест"/>
+    </a>
+
+    <nav class="nav-desktop">
+
+      <div class="nav-dropdown" id="dd-about">
+        <button class="nav-link" data-mn="Бидний тухай" data-en="About Us">
+          Бидний тухай
+          <span class="material-symbols-outlined" style="font-size:16px">expand_more</span>
+        </button>
+        <div class="nav-dd-menu" id="menu-about">
+          <a href="/about/tuz-mendchilgee.html" data-mn="ТУЗ Мэндчилгээ"           data-en="Board Greeting">ТУЗ Мэндчилгээ</a>
+          <a href="/about/company-intro.html"   data-mn="Компанийн танилцуулга"    data-en="Company Profile">Компанийн танилцуулга</a>
+          <!-- Удирдлагын баг — hover дарахад баруун талд sub-menu гарна -->
+          <div class="nav-sub-wrap" id="sub-team">
+            <a href="/about/management-team.html" class="nav-dd-sub-trigger" data-mn="Удирдлагын баг" data-en="Leadership Team">
+              Удирдлагын баг
+              <span class="material-symbols-outlined" style="font-size:14px;margin-left:auto">chevron_right</span>
+            </a>
+            <div class="nav-sub-menu" id="sub-menu-team">
+              <a href="/about/management-team.html?tab=tuz"  data-mn="Төлөөлөн удирдах зөвлөл" data-en="Board of Directors">Төлөөлөн удирдах зөвлөл</a>
+              <a href="/about/management-team.html?tab=exec" data-mn="Гүйцэтгэх удирдлагын баг" data-en="Executive Team">Гүйцэтгэх удирдлагын баг</a>
+            </div>
+          </div>
+          <a href="/about/org-structure.html"   data-mn="Бүтэц зохион байгуулалт"  data-en="Org Structure">Бүтэц зохион байгуулалт</a>
+          <a href="/about/transparency.html"    data-mn="Ил тод байдал"             data-en="Transparency">Ил тод байдал</a>
+          <a href="/about/iso-certificate.html" data-mn="ISO Сертификат"            data-en="ISO Certificate">ISO Сертификат</a>
+        </div>
+      </div>
+
+      <a class="nav-link" href="/products/index.html" data-mn="Бүтээгдэхүүн" data-en="Products">Бүтээгдэхүүн</a>
+
+      <div class="nav-dropdown" id="dd-invest">
+        <button class="nav-link" data-mn="Хөрөнгө оруулалт" data-en="Investment">
+          Хөрөнгө оруулалт
+          <span class="material-symbols-outlined" style="font-size:16px">expand_more</span>
+        </button>
+        <div class="nav-dd-menu" id="menu-invest">
+          <a href="/investment/itgelts.html" data-mn="Итгэлцэл" data-en="Trust Fund">Итгэлцэл</a>
+          <a href="/investment/hbuts.html"   data-mn="ХБҮЦ"     data-en="ABS">ХБҮЦ</a>
+          <a href="/investment/bond.html"    data-mn="Бонд"     data-en="Bond">Бонд</a>
+          <a href="/investment/report.html"  data-mn="Тайлан"   data-en="Reports">Тайлан</a>
+        </div>
+      </div>
+
+      <a class="nav-link" href="/hr/index.html"      data-mn="Хүний нөөц"     data-en="Human Resources">Хүний нөөц</a>
+
+      <div class="nav-dropdown" id="dd-news">
+        <button class="nav-link" data-mn="Мэдээ мэдээлэл" data-en="News">
+          Мэдээ мэдээлэл
+          <span class="material-symbols-outlined" style="font-size:16px">expand_more</span>
+        </button>
+        <div class="nav-dd-menu" id="menu-news">
+          <a href="/news/index.html?cat=breaking" data-mn="Цаг үеийн мэдээ"      data-en="Breaking News">Цаг үеийн мэдээ</a>
+          <a href="/news/index.html?cat=social"   data-mn="Нийгмийн хариуцлага"  data-en="Social Responsibility">Нийгмийн хариуцлага</a>
+          <a href="/news/index.html?cat=advice"   data-mn="Заавар зөвлөмж"       data-en="Advice">Заавар зөвлөмж</a>
+        </div>
+      </div>
+
+      <a class="nav-link" href="/contact/index.html" data-mn="Холбоо барих" data-en="Contact">Холбоо барих</a>
+
+    </nav>
+
+    <div class="nav-hdr-actions">
+      <button id="langToggle">МН</button>
+      <button id="themeToggle" class="icon-btn">
+        <span id="icon-dark"  class="material-symbols-outlined" style="font-size:20px">dark_mode</span>
+        <span id="icon-light" class="material-symbols-outlined" style="font-size:20px;display:none">light_mode</span>
+      </button>
+      <a href="/login.html" class="btn-newtrekh" data-mn="Нэвтрэх" data-en="Login">Нэвтрэх</a>
+      <button id="hamburger">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<nav id="mobileMenu">
+  <p class="mob-cat" data-mn="Бидний тухай" data-en="About">Бидний тухай</p>
+  <a href="/about/tuz-mendchilgee.html"        data-mn="Байгууллагын бүтэц"       data-en="Structure">Байгууллагын бүтэц</a>
+  <a href="/about/company-intro.html"          data-mn="Түүхэн замнал"            data-en="History">Түүхэн замнал</a>
+  <a href="/about/management-team.html?tab=tuz"  data-mn="Төлөөлөн удирдах зөвлөл" data-en="Board">Төлөөлөн удирдах зөвлөл</a>
+  <a href="/about/management-team.html?tab=exec" data-mn="Гүйцэтгэх удирдлагын баг" data-en="Executive">Гүйцэтгэх удирдлагын баг</a>
+  <a href="/about/transparency.html"          data-mn="Ил тод байдал"            data-en="Transparency">Ил тод байдал</a>
+  <a href="/products/index.html"              data-mn="Бүтээгдэхүүн"             data-en="Products">Бүтээгдэхүүн</a>
+  <p class="mob-cat" data-mn="Хөрөнгө оруулалт" data-en="Investment">Хөрөнгө оруулалт</p>
+  <a href="/investment/itgelts.html"          data-mn="Итгэлцэл"                 data-en="Trust">Итгэлцэл</a>
+  <a href="/investment/hbuts.html"            data-mn="ХБҮЦ"                     data-en="ABS">ХБҮЦ</a>
+  <a href="/investment/bond.html"             data-mn="Бонд"                     data-en="Bond">Бонд</a>
+  <a href="/hr/index.html"                    data-mn="Хүний нөөц"               data-en="Human Resources">Хүний нөөц</a>
+  <p class="mob-cat" data-mn="Мэдээ мэдээлэл" data-en="News">Мэдээ мэдээлэл</p>
+  <a href="/news/index.html?cat=breaking"     data-mn="Цаг үеийн мэдээ"          data-en="Breaking News">Цаг үеийн мэдээ</a>
+  <a href="/news/index.html?cat=social"       data-mn="Нийгмийн хариуцлага"      data-en="Social">Нийгмийн хариуцлага</a>
+  <a href="/contact/index.html"               data-mn="Холбоо барих"             data-en="Contact">Холбоо барих</a>
+  <a href="/login.html"                       data-mn="Нэвтрэх"                  data-en="Login">Нэвтрэх</a>
+</nav>
+
+

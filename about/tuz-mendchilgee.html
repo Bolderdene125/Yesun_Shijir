@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ТУЗ Мэндчилгээ | Yesun Shijir Invest</title>
+
+  <!-- Theme (flash зайлсхийх — CSS-ийн ӨМНӨ) -->
+  <script src="js/theme.js"></script>
+
+  <!-- Tailwind CDN -->
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="css/shared.css" />
+</head>
+<body>
+
+<!-- Header placeholder (nav.js inject хийнэ) -->
+<div id="header-placeholder"></div>
+
+<!-- Sub-navigation: Бидний тухай 6 хэсэг -->
+
+
+<main class="container section-pad">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="index.html" data-mn="Нүүр" data-en="Home">Нүүр</a>
+    <span ></span>
+    <a href="about/tuz-mendchilgee.html" data-mn="Бидний тухай" data-en="About Us">Бидний тухай</a>
+    <span ></span>
+    <span data-mn="ТУЗ Мэндчилгээ" data-en="Board Greeting">ТУЗ Мэндчилгээ</span>
+  </div>
+
+  <!-- Page hero -->
+  <div class="page-hero" style="background:none;border:none;padding-top:0">
+    <span class="page-tag" data-mn="Бидний тухай" data-en="About Us">Бидний тухай</span>
+    <h1 class="page-title" data-mn="ТУЗ-ын даргын мэндчилгээ" data-en="Chairman's Greeting">
+      ТУЗ-ын даргын мэндчилгээ
+    </h1>
+  </div>
+
+  <!-- Main content: зураг зүүн + текст баруун -->
+  <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:48px;margin-top:40px;align-items:flex-start">
+
+    <!-- Left: Chairman photo -->
+    <div class="animate-in">
+      <div style="border-radius:var(--radius-xl);overflow:hidden;border:1px solid var(--border);aspect-ratio:3/4;background:var(--bg-surface-container)">
+        <!-- Зургийн placeholder — бодит зургийг оруулна -->
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text-muted)">
+          <span class="material-symbols-outlined" style="font-size:64px;opacity:0.3">person</span>
+          <p style="font-size:13px;opacity:0.5" data-mn="ТУЗ-ын даргын зураг" data-en="Chairman's Photo">ТУЗ-ын даргын зураг</p>
+          <!-- Бодит зураг ирэхэд доорхоор солино:
+          <img src="assets/chairman.jpg" alt="ТУЗ-ын дарга" style="width:100%;height:100%;object-fit:cover" />
+          -->
+        </div>
+      </div>
+
+      <!-- Name card -->
+      <div style="margin-top:16px;padding:20px;background:var(--bg-low);border:1px solid var(--border);border-radius:var(--radius-lg);text-align:center">
+        <p style="font-weight:800;font-size:18px;color:var(--primary)" data-mn="Ц.Доржсүрэн" data-en="Ts. Dorjsuren">Ц.Доржсүрэн</p>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:4px;font-family:var(--font-mono)" data-mn="ТУЗ-ын дарга" data-en="Chairman of the Board">ТУЗ-ын дарга</p>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:8px" data-mn="Есөн Шижир Инвест ББСБ" data-en="Yesun Shijir Invest NBFI">Есөн Шижир Инвест ББСБ</p>
+      </div>
+    </div>
+
+    <!-- Right: Greeting text -->
+    <article class="animate-in animate-delay-1">
+      <h2 style="font-size:28px;font-weight:800;margin-bottom:24px;line-height:1.3" data-mn="ТУЗ Мэндчилгээ" data-en="Board Greeting">
+        ТУЗ Мэндчилгээ
+      </h2>
+
+      <div style="display:flex;flex-direction:column;gap:18px;font-size:16px;line-height:1.8;color:var(--text-muted)">
+        <p data-mn="Эрхэмсэг харилцагч, хамтрагч болон сонирхогч талуудаа,"
+           data-en="Dear customers, partners, and stakeholders,">
+          Эрхэмсэг харилцагч, хамтрагч болон сонирхогч талуудаа,
+        </p>
+        <p data-mn="Есөн Шижир Инвест ББСБ нь Монгол Улсын санхүүгийн зах зээлд үйл ажиллагаа явуулж буй найдвартай санхүүгийн байгууллага болохын хувьд бид таны итгэл, дэмжлэгт гүнээ талархаж байна."
+           data-en="As Yesun Shijir Invest NBFI, operating in Mongolia's financial market, we deeply appreciate your trust and support.">
+          Есөн Шижир Инвест ББСБ нь Монгол Улсын санхүүгийн зах зээлд үйл ажиллагаа явуулж буй найдвартай санхүүгийн байгууллага болохын хувьд бид таны итгэл, дэмжлэгт гүнээ талархаж байна.
+        </p>
+        <p data-mn="Бид иргэд болон бизнес эрхлэгчдэд хүртээмжтэй, ил тод, шуурхай санхүүгийн үйлчилгээ үзүүлэх эрхэм зорилгоо өдөр бүр биелүүлэхийн тулд хичээн ажиллаж байна. ISO 27001:2022 болон ISO 9001:2015 стандартын гэрчилгээ бол тэрхүү зорилгын биет нотолгоо юм."
+           data-en="We work every day to fulfill our mission of providing accessible, transparent, and efficient financial services to individuals and businesses. Our ISO 27001:2022 and ISO 9001:2015 certifications are tangible proof of that commitment.">
+          Бид иргэд болон бизнес эрхлэгчдэд хүртээмжтэй, ил тод, шуурхай санхүүгийн үйлчилгээ үзүүлэх эрхэм зорилгоо өдөр бүр биелүүлэхийн тулд хичээн ажиллаж байна.
+        </p>
+        <p data-mn="Цаашид ч байгууллагын тогтвортой хөгжил, харилцагчдын сэтгэл ханамжийг нэн тэргүүнд тавин, Монголын санхүүгийн салбарт тэргүүлэгч байгууллага болох зорилтоо хэрэгжүүлэн явах болно."
+           data-en="Going forward, we will continue to prioritize sustainable development and customer satisfaction, working to become a leading organization in Mongolia's financial sector.">
+          Цаашид ч байгууллагын тогтвортой хөгжил, харилцагчдын сэтгэл ханамжийг нэн тэргүүнд тавин, Монголын санхүүгийн салбарт тэргүүлэгч байгууллага болох зорилтоо хэрэгжүүлэн явах болно.
+        </p>
+
+        <!-- Signature -->
+        <div style="margin-top:16px;padding-top:24px;border-top:1px solid var(--border)">
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;font-family:var(--font-mono)" data-mn="Хүндэтгэлтэйгээр," data-en="Sincerely,">Хүндэтгэлтэйгээр,</p>
+          <p style="font-weight:800;font-size:20px;color:var(--primary)" data-mn="Ц.Доржсүрэн" data-en="Ts. Dorjsuren">Ц.Доржсүрэн</p>
+          <p style="font-size:13px;color:var(--text-muted);font-family:var(--font-mono)" data-mn="ТУЗ-ын дарга — Есөн Шижир Инвест ББСБ" data-en="Chairman — Yesun Shijir Invest NBFI">ТУЗ-ын дарга — Есөн Шижир Инвест ББСБ</p>
+        </div>
+      </div>
+    </article>
+  </div>
+
+</main>
+
+<!-- Footer placeholder -->
+<div id="footer-placeholder"></div>
+
+<!-- Side helper panel -->
+<aside id="sideNav" style="position:fixed;right:0;top:50%;transform:translateY(-50%) translateX(3rem);z-index:40;display:flex;flex-direction:column;gap:8px;padding:8px;background:var(--bg-white);box-shadow:0 4px 24px rgba(0,0,0,0.1);border:1px solid var(--border);border-right:none;border-radius:12px 0 0 12px;transition:transform 0.3s ease">
+  <button onclick="window.location.href='/investment/itgelts.html?request=true'" style="padding:12px;border-radius:8px;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:12px;font-weight:700;font-family:var(--font-mono)">
+    <span class="material-symbols-outlined" style="display:block;font-size:20px;margin-bottom:2px">request_quote</span>
+    Хүсэлт
+  </button>
+</aside>
+
+<!-- Scripts -->
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+</body>
+</html>

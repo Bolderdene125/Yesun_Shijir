@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ISO Сертификат | Yesun Shijir Invest</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    .iso-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    @media (max-width: 640px) { .iso-grid { grid-template-columns: 1fr; } }
+    .iso-card {
+      background: var(--bg-white); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .iso-card:hover { border-color: var(--primary); box-shadow: 0 8px 24px rgba(0,94,38,0.08); }
+    .iso-card-header {
+      padding: 24px 28px; border-bottom: 1px solid var(--border);
+      background: var(--bg-low);
+      display: flex; align-items: center; gap: 16px;
+    }
+    .iso-icon {
+      width: 52px; height: 52px; border-radius: var(--radius-lg);
+      background: var(--primary); color: #fff;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .iso-card-header h2 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+    .iso-card-header p  { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); }
+    .iso-cert-img {
+      width: 100%; aspect-ratio: 3/4; object-fit: cover;
+      background: var(--bg-surface-container);
+      display: flex; align-items: center; justify-content: center;
+      cursor: zoom-in;
+    }
+    .iso-cert-img:hover { opacity: 0.88; }
+    .iso-card-body { padding: 24px 28px; }
+    .iso-detail-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+    }
+    .iso-detail-row:last-child { border-bottom: none; }
+    .iso-detail-row span:first-child { color: var(--text-muted); font-size: 13px; }
+    .iso-detail-row span:last-child  { font-weight: 700; }
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+
+<main class="container section-pad">
+  <div class="breadcrumb">
+    <a href="index.html">Нүүр</a><span ></span>
+    <a href="about/tuz-mendchilgee.html">Бидний тухай</a><span ></span>
+    <span>ISO Сертификат</span>
+  </div>
+
+  <div style="margin-bottom:40px">
+    <span class="page-tag">Чанар ба Аюулгүй байдал</span>
+    <h1 class="page-title">ISO Сертификат</h1>
+    <p class="page-hero-desc">
+      Есөн Шижир Инвест ББСБ нь олон улсын стандартын шаардлагыг хангасан, итгэлтэй байгууллага юм.
+    </p>
+  </div>
+
+  <div class="iso-grid">
+
+    <!-- ISO 27001 -->
+    <div class="iso-card animate-in">
+      <div class="iso-card-header">
+        <div class="iso-icon">
+          <span class="material-symbols-outlined">security</span>
+        </div>
+        <div>
+          <h2>Мэдээллийн аюулгүй байдал</h2>
+          <p>Information Security Management</p>
+        </div>
+      </div>
+
+      <!-- Certificate image -->
+      <div class="iso-cert-img" onclick="openCert('iso27001')" role="button" tabindex="0" aria-label="ISO 27001 сертификат томруулж харах">
+        <!--
+          Бодит сертификатын зургийг оруулна:
+          <img src="assets/iso27001.jpg" alt="ISO 27001:2022 Certificate" style="width:100%;height:100%;object-fit:cover"/>
+        -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px;color:var(--text-muted)">
+          <span class="material-symbols-outlined" style="font-size:56px;opacity:0.2">workspace_premium</span>
+          <p style="font-size:13px;opacity:0.4;font-family:var(--font-mono)">ISO 27001:2022 сертификат</p>
+          <p style="font-size:11px;opacity:0.3">Зураг дарахад томруулна</p>
+        </div>
+      </div>
+
+      <div class="iso-card-body">
+        <div class="iso-detail-row">
+          <span>Стандарт</span><span>ISO/IEC 27001:2022</span>
+        </div>
+        <div class="iso-detail-row">
+          <span>Олгосон байгууллага</span><span>Bureau Veritas</span>
+        </div>
+        <div class="iso-detail-row">
+          <span>Хүчинтэй хугацаа</span><span>2025–2027</span>
+        </div>
+        <div class="iso-detail-row">
+          <span>Хамрах хүрээ</span><span>Санхүүгийн үйл ажиллагаа</span>
+        </div>
+        <div style="margin-top:16px">
+          <span class="badge badge-green">✓ Хүчинтэй</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ISO 9001 -->
+    <div class="iso-card animate-in animate-delay-1">
+      <div class="iso-card-header">
+        <div class="iso-icon">
+          <span class="material-symbols-outlined">verified</span>
+        </div>
+        <div>
+          <h2>Чанарын стандарт</h2>
+          <p>Quality Management System</p>
+        </div>
+      </div>
+
+      <div class="iso-cert-img" onclick="openCert('iso9001')" role="button" tabindex="0" aria-label="ISO 9001 сертификат томруулж харах">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px;color:var(--text-muted)">
+          <span class="material-symbols-outlined" style="font-size:56px;opacity:0.2">workspace_premium</span>
+          <p style="font-size:13px;opacity:0.4;font-family:var(--font-mono)">ISO 9001:2015 сертификат</p>
+          <p style="font-size:11px;opacity:0.3">Зураг дарахад томруулна</p>
+        </div>
+      </div>
+
+      <div class="iso-card-body">
+        <div class="iso-detail-row">
+          <span>Стандарт</span><span>ISO 9001:2015</span>
+        </div>
+        <div class="iso-detail-row">
+          <span>Олгосон байгууллага</span><span>Bureau Veritas</span>
+        </div>
+        <div class="iso-detail-row">
+          <span>Хүчинтэй хугацаа</span><span>2024–2026</span>
+        </div>
+        <div class="iso-detail-row">
+          <span>Хамрах хүрээ</span><span>Бүх үйл ажиллагаа</span>
+        </div>
+        <div style="margin-top:16px">
+          <span class="badge badge-green">✓ Хүчинтэй</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Cert zoom modal -->
+<dialog id="certModal" style="max-width:700px;width:95vw;border-radius:var(--radius-xl);padding:0;border:1px solid var(--border);background:var(--bg-white)">
+  <div style="position:relative">
+    <button onclick="document.getElementById('certModal').close()"
+            class="modal-close" style="position:absolute;top:12px;right:12px;z-index:10">
+      <span class="material-symbols-outlined" style="font-size:20px">close</span>
+    </button>
+    <div id="certZoomContent" style="padding:24px;min-height:300px;display:flex;align-items:center;justify-content:center">
+      <!-- JS-аар зураг оруулна -->
+    </div>
+  </div>
+</dialog>
+
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+<script>
+  const CERTS = {
+    iso27001: { title: 'ISO 27001:2022 — Мэдээллийн аюулгүй байдал', src: null },
+    iso9001:  { title: 'ISO 9001:2015 — Чанарын стандарт',           src: null },
+  };
+
+  function openCert(id) {
+    const cert = CERTS[id];
+    const content = document.getElementById('certZoomContent');
+    if (cert.src) {
+      content.innerHTML = `<img src="${cert.src}" alt="${cert.title}" style="width:100%;height:auto;border-radius:8px"/>`;
+    } else {
+      content.innerHTML = `
+        <div style="text-align:center;color:var(--text-muted);padding:40px">
+          <span class="material-symbols-outlined" style="font-size:64px;opacity:0.2;display:block;margin-bottom:12px">workspace_premium</span>
+          <p style="font-weight:700">${cert.title}</p>
+          <p style="font-size:13px;margin-top:8px;opacity:0.6">Сертификатын зургийг /assets/ хавтаст байршуулна</p>
+        </div>`;
+    }
+    document.getElementById('certModal').showModal();
+  }
+
+  document.getElementById('certModal').addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    if (e.clientX < rect.left || e.clientX > rect.right ||
+        e.clientY < rect.top  || e.clientY > rect.bottom) {
+      this.close();
+    }
+  });
+</script>
+</body>
+</html>

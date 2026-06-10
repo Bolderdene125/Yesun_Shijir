@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Бүтэц зохион байгуулалт | Yesun Shijir Invest</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    .org-img-wrapper {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: var(--bg-white);
+      cursor: zoom-in;
+      transition: box-shadow 0.2s;
+    }
+    .org-img-wrapper:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+    .org-img-wrapper img { width: 100%; height: auto; display: block; }
+    /* Zoom modal */
+    #orgZoom {
+      max-width: 95vw; width: 95vw;
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+    }
+    #orgZoom img { width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+
+<main class="container section-pad">
+  <div class="breadcrumb">
+    <a href="index.html">Нүүр</a><span ></span>
+    <a href="about/tuz-mendchilgee.html">Бидний тухай</a><span ></span>
+    <span>Бүтэц зохион байгуулалт</span>
+  </div>
+  <div style="margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div>
+      <span class="page-tag">Бидний тухай</span>
+      <h1 class="page-title">Бүтэц зохион байгуулалт</h1>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="document.getElementById('orgZoom').showModal()">
+      <span class="material-symbols-outlined" style="font-size:18px">zoom_in</span>
+      Томруулах
+    </button>
+  </div>
+
+  <!-- Org chart image -->
+  <div class="org-img-wrapper" onclick="document.getElementById('orgZoom').showModal()">
+    <!--
+      Бодит org chart зургийг оруулна:
+      <img src="assets/org-chart.png" alt="Есөн Шижир Инвест — Бүтцийн зохион байгуулалт" />
+    -->
+    <!-- Placeholder -->
+    <div style="min-height:480px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--text-muted);padding:48px">
+      <span class="material-symbols-outlined" style="font-size:72px;opacity:0.2">account_tree</span>
+      <p style="font-size:15px;opacity:0.5">Бүтцийн зохион байгуулалтын зураг энд байрлана</p>
+      <p style="font-size:12px;opacity:0.4;font-family:var(--font-mono)">/assets/org-chart.png</p>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:var(--text-muted);text-align:center;margin-top:12px">
+    Зураг дээр дарахад томоор харах боломжтой
+  </p>
+</main>
+
+<!-- Zoom modal -->
+<dialog id="orgZoom">
+  <div style="position:relative">
+    <button onclick="document.getElementById('orgZoom').close()"
+            style="position:absolute;top:12px;right:12px;z-index:10"
+            class="modal-close">
+      <span class="material-symbols-outlined" style="font-size:20px">close</span>
+    </button>
+    <!-- <img src="assets/org-chart.png" alt="Бүтцийн зохион байгуулалт" /> -->
+    <div style="padding:60px;display:flex;align-items:center;justify-content:center;color:var(--text-muted)">
+      <span class="material-symbols-outlined" style="font-size:64px;opacity:0.2">account_tree</span>
+    </div>
+  </div>
+</dialog>
+
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+<script>
+  // Backdrop дарахад хаах
+  document.getElementById('orgZoom').addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    if (e.clientX < rect.left || e.clientX > rect.right ||
+        e.clientY < rect.top  || e.clientY > rect.bottom) {
+      this.close();
+    }
+  });
+</script>
+</body>
+</html>

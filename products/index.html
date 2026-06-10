@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Бүтээгдэхүүн | Есөн Шижир Инвест</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    .cat-tabs { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:32px; }
+    .cat-tab {
+      padding:10px 22px; border-radius:99px; font-size:14px; font-weight:700;
+      font-family:var(--font-head); border:1.5px solid var(--border);
+      background:transparent; color:var(--text-muted); cursor:pointer; transition:all .15s;
+    }
+    .cat-tab.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    html.dark .cat-tab.active { color:#000; }
+    .cat-tab:hover:not(.active) { border-color:var(--primary); color:var(--primary); }
+
+    .product-list { display:flex; flex-direction:column; gap:12px; }
+    .product-row {
+      display:flex; align-items:center; justify-content:space-between;
+      background:var(--bg-white); border:1px solid var(--border);
+      border-radius:var(--radius-lg); padding:16px 20px;
+      cursor:pointer; transition:all .15s; text-decoration:none; color:inherit;
+    }
+    .product-row:hover { border-color:var(--primary); background:var(--bg-low); }
+    .product-row-left { display:flex; align-items:center; gap:14px; }
+    .product-row-num {
+      width:32px; height:32px; border-radius:50%; background:var(--bg-container);
+      display:flex; align-items:center; justify-content:center;
+      font-size:12px; font-weight:700; font-family:var(--font-mono);
+      color:var(--text-muted); flex-shrink:0;
+    }
+    .product-row:hover .product-row-num { background:var(--primary); color:#fff; }
+    html.dark .product-row:hover .product-row-num { color:#000; }
+    .product-row-name { font-size:15px; font-weight:600; font-family:var(--font-head); }
+    .product-row-arr  { color:var(--text-muted); transition:transform .15s; }
+    .product-row:hover .product-row-arr { transform:translateX(4px); color:var(--primary); }
+
+    /* Detail view */
+    .detail-view { display:none; }
+    .detail-view.open { display:block; }
+    .detail-hero {
+      background:var(--bg-low); border:1px solid var(--border);
+      border-radius:var(--radius-xl); overflow:hidden; margin-bottom:28px;
+    }
+    .detail-hero-img {
+      width:100%; aspect-ratio:16/6; background:var(--bg-container);
+      display:flex; align-items:center; justify-content:center; overflow:hidden;
+    }
+    .detail-hero-img img { width:100%; height:100%; object-fit:cover; }
+    .detail-hero-body { padding:28px 32px; }
+    .detail-hero-body h1 { font-size:clamp(22px,3vw,32px); font-weight:800; font-family:var(--font-head); margin-bottom:10px; }
+    .detail-hero-body p  { font-size:15px; color:var(--text-muted); line-height:1.7; }
+
+    .detail-section { margin-bottom:32px; }
+    .detail-section h2 { font-size:17px; font-weight:700; font-family:var(--font-head); margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+    .detail-item { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); font-size:14px; }
+    .detail-item:last-child { border-bottom:none; }
+    .detail-item-dot { width:6px; height:6px; border-radius:50%; background:var(--primary); margin-top:7px; flex-shrink:0; }
+
+    .back-btn {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:14px; font-weight:600; color:var(--text-muted);
+      cursor:pointer; margin-bottom:24px; background:none; border:none;
+      font-family:var(--font-head); transition:color .15s;
+    }
+    .back-btn:hover { color:var(--primary); }
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<main>
+  <div class="container section-pad">
+    <div class="breadcrumb">
+      <a href="index.html" data-mn="Нүүр" data-en="Home">Нүүр</a>
+      <span>/</span>
+      <span data-mn="Бүтээгдэхүүн" data-en="Products">Бүтээгдэхүүн</span>
+    </div>
+
+    <!-- List view -->
+    <div id="listView">
+      <div style="margin-bottom:32px">
+        <span class="page-tag">Бүтээгдэхүүн</span>
+        <h1 class="page-title" data-mn="Зээлийн бүтээгдэхүүн" data-en="Loan Products">Зээлийн бүтээгдэхүүн</h1>
+      </div>
+
+      <!-- Category tabs -->
+      <div class="cat-tabs">
+        <button class="cat-tab active" onclick="showCat('consumer')" data-mn="Хэрэглээний зээл" data-en="Consumer Loans">Хэрэглээний зээл</button>
+        <button class="cat-tab"       onclick="showCat('business')" data-mn="Бизнесийн зээл"   data-en="Business Loans">Бизнесийн зээл</button>
+        <button class="cat-tab"       onclick="showCat('other')"    data-mn="Бусад зээл"        data-en="Other Loans">Бусад зээл</button>
+      </div>
+
+      <!-- Consumer -->
+      <div class="product-list" id="cat-consumer">
+        <div class="product-row" onclick="showDetail('auto-buy')">
+          <div class="product-row-left"><div class="product-row-num">1</div><span class="product-row-name">Автомашин худалдаж авах зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('salary')">
+          <div class="product-row-left"><div class="product-row-num">2</div><span class="product-row-name">Цалингийн зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('household')">
+          <div class="product-row-left"><div class="product-row-num">3</div><span class="product-row-name">Өрхийн хэрэглээнд зориулсан зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('employee')">
+          <div class="product-row-left"><div class="product-row-num">4</div><span class="product-row-name">Ажилтны цалингийн зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+      </div>
+
+      <!-- Business -->
+      <div class="product-list" id="cat-business" style="display:none">
+        <div class="product-row" onclick="showDetail('working-capital')">
+          <div class="product-row-left"><div class="product-row-num">1</div><span class="product-row-name">Эргэлтийн хөрөнгийн зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('plate')">
+          <div class="product-row-left"><div class="product-row-num">2</div><span class="product-row-name">Дугаар барьцаалсан зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('auto-park')">
+          <div class="product-row-left"><div class="product-row-num">3</div><span class="product-row-name">Автомашин байрлуулах зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('credit-line')">
+          <div class="product-row-left"><div class="product-row-num">4</div><span class="product-row-name">Шугамын зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('women-biz')">
+          <div class="product-row-left"><div class="product-row-num">5</div><span class="product-row-name">Бизнес эрхлэгч эмэгтэйчүүдийг дэмжих зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('investment-loan')">
+          <div class="product-row-left"><div class="product-row-num">6</div><span class="product-row-name">Хөрөнгө оруулалтын зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+      </div>
+
+      <!-- Other -->
+      <div class="product-list" id="cat-other" style="display:none">
+        <div class="product-row" onclick="showDetail('green')">
+          <div class="product-row-left"><div class="product-row-num">1</div><span class="product-row-name">Ногоон зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('itgelts-collateral')">
+          <div class="product-row-left"><div class="product-row-num">2</div><span class="product-row-name">Итгэлцэл барьцаалсан зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('bond-collateral')">
+          <div class="product-row-left"><div class="product-row-num">3</div><span class="product-row-name">Бонд барьцаалсан зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('express')">
+          <div class="product-row-left"><div class="product-row-num">4</div><span class="product-row-name">Шуурхай зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+        <div class="product-row" onclick="showDetail('realestate')">
+          <div class="product-row-left"><div class="product-row-num">5</div><span class="product-row-name">Үл хөдлөх хөрөнгө худалдан авах зээл</span></div>
+          <span class="material-symbols-outlined product-row-arr">arrow_forward</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail view -->
+    <div id="detailView" class="detail-view">
+      <button class="back-btn" onclick="closeDetail()">
+        <span class="material-symbols-outlined">arrow_back</span>
+        <span data-mn="Бүтээгдэхүүн рүү буцах" data-en="Back to Products">Бүтээгдэхүүн рүү буцах</span>
+      </button>
+      <div class="detail-hero">
+        <div class="detail-hero-img" id="detailImg">
+          <span class="material-symbols-outlined" style="font-size:64px;opacity:.2;color:var(--primary)">directions_car</span>
+        </div>
+        <div class="detail-hero-body">
+          <h1 id="detailTitle"></h1>
+          <p id="detailDesc"></p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div class="detail-section">
+          <h2 data-mn="Зээлийн нөхцөл" data-en="Loan Terms">Зээлийн нөхцөл</h2>
+          <div id="detailTerms"></div>
+        </div>
+        <div class="detail-section">
+          <h2 data-mn="Тавигдах шаардлага" data-en="Requirements">Тавигдах шаардлага</h2>
+          <div id="detailReqs"></div>
+        </div>
+      </div>
+      <div class="detail-section">
+        <h2 data-mn="Бүрдүүлэх материал" data-en="Required Documents">Бүрдүүлэх материал</h2>
+        <div id="detailDocs"></div>
+      </div>
+      <div style="margin-top:8px">
+        <a href="investment/itgelts.html?request=true" class="btn btn-primary btn-lg" data-mn="Хүсэлт илгээх" data-en="Apply Now">Хүсэлт илгээх</a>
+      </div>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+<script>
+const PRODUCTS = {
+  'auto-buy': {
+    title: 'Автомашин худалдаж авах зээл',
+    desc:  'Хувийн хэрэгцээнд зориулж машин авах хүсэл бүй харилцагчид.',
+    icon:  'directions_car',
+    terms: ['Хугацаа: Иргэн — 30 сар, Бизнес — 96 сар','Зээлийн хүү: 38.4% (жилийн)','Урьдчилгаа: 20%','Зээлийн шимтгэл: үнийн дүнгийн 1%'],
+    reqs:  ['18 нас хүрсэн','Цалингийн орлого байх','6 сараас дээш уг байгууллагад ажилласан байх'],
+    docs:  ['Иргэний үнэмлэх','Гэрлэлтийн үнэмлэх','Идэвхтэй зээлийн гэрээ','Худалдан авах машины нотолгоо (гаалийн бичиг / дугаар авсан)'],
+  },
+  'salary': {
+    title: 'Цалингийн зээл',
+    desc:  'Цалинтай иргэдэд зориулсан хурдан, хялбар зээл.',
+    icon:  'payments',
+    terms: ['Хугацаа: 24 сар хүртэл','Зээлийн хүү: 36% (жилийн)','Урьдчилгаа шаардлагагүй','Зээлийн шимтгэл: 1%'],
+    reqs:  ['18 нас хүрсэн','3 сараас дээш тогтмол цалин авдаг байх','Зээлийн сөрөг түүхгүй байх'],
+    docs:  ['Иргэний үнэмлэх','Цалингийн тодорхойлолт','Нийгмийн даатгалын дэвтэр'],
+  },
+  'household': {
+    title: 'Өрхийн хэрэглээнд зориулсан зээл',
+    desc:  'Гэр бүлийн хэрэгцээг хангахад зориулсан зээл.',
+    icon:  'home',
+    terms: ['Хугацаа: 18 сар хүртэл','Зээлийн хүү: 36% (жилийн)','Зээлийн шимтгэл: 1%'],
+    reqs:  ['18 нас хүрсэн','Тогтмол орлоготой байх'],
+    docs:  ['Иргэний үнэмлэх','Орлогын нотолгоо'],
+  },
+  'employee': {
+    title: 'Ажилтны цалингийн зээл',
+    desc:  'Байгууллагын ажилтнуудад зориулсан хөнгөлөлттэй зээл.',
+    icon:  'badge',
+    terms: ['Хугацаа: 24 сар','Хүү: 30% хүртэл','Хамтрагч байгууллагын ажилтнуудад хөнгөлөлт'],
+    reqs:  ['Хамтрагч байгууллагад ажилладаг байх','6 сараас дээш ажилсан байх'],
+    docs:  ['Иргэний үнэмлэх','Ажлын тодорхойлолт','Цалингийн хуудас'],
+  },
+  'working-capital': {
+    title: 'Эргэлтийн хөрөнгийн зээл',
+    desc:  'Бизнесийн эргэлтийн хөрөнгийг нэмэгдүүлэхэд.',
+    icon:  'autorenew',
+    terms: ['Хугацаа: 12–36 сар','Зээлийн хэмжээ: тохиролцооны үндсэн дээр','Хүү: 36–42%'],
+    reqs:  ['Бизнесийн гэрчилгээтэй байх','6 сараас дээш үйл ажиллагаа явуулсан байх'],
+    docs:  ['ААН-ийн гэрчилгээ','Санхүүгийн тайлан','Иргэний үнэмлэх'],
+  },
+  'plate': {
+    title: 'Дугаар барьцаалсан зээл',
+    desc:  'Автомашины улсын дугаарыг барьцаалж авах зээл.',
+    icon:  'confirmation_number',
+    terms: ['Хугацаа: 24 сар хүртэл','Зээлийн хэмжээ: дугаарын үнэлгээний 70% хүртэл'],
+    reqs:  ['Дугаар өөрийн нэр дээр байх','18 нас хүрсэн байх'],
+    docs:  ['Иргэний үнэмлэх','Дугаарын гэрчилгээ'],
+  },
+  'auto-park': {
+    title: 'Автомашин байрлуулах зээл',
+    desc:  'Автомашины зогсоол, гараж барих, худалдаж авахад.',
+    icon:  'local_parking',
+    terms: ['Хугацаа: 36 сар хүртэл','Урьдчилгаа: 20%'],
+    reqs:  ['18 нас хүрсэн','Тогтмол орлоготой байх'],
+    docs:  ['Иргэний үнэмлэх','Зогсоолын нотолгоо'],
+  },
+  'credit-line': {
+    title: 'Шугамын зээл',
+    desc:  'Бизнесийн тасралтгүй санхүүжилтийн шугам.',
+    icon:  'trending_up',
+    terms: ['Хугацаа: 12 сар, сунгах боломжтой','Зээлийн шугамын хэмжээ: тохиролцооны дагуу'],
+    reqs:  ['1 жилээс дээш бизнес эрхэлсэн байх'],
+    docs:  ['ААН-ийн гэрчилгээ','Санхүүгийн тайлан'],
+  },
+  'women-biz': {
+    title: 'Бизнес эрхлэгч эмэгтэйчүүдийг дэмжих зээл',
+    desc:  'Эмэгтэй бизнес эрхлэгчдэд зориулсан дэмжлэг.',
+    icon:  'woman',
+    terms: ['Хүү: 30% хүртэл хөнгөлөлттэй','Хугацаа: 36 сар хүртэл'],
+    reqs:  ['Эмэгтэй бизнес эрхлэгч байх','Бизнесийн гэрчилгээтэй байх'],
+    docs:  ['Иргэний үнэмлэх','ААН-ийн гэрчилгээ'],
+  },
+  'investment-loan': {
+    title: 'Хөрөнгө оруулалтын зээл',
+    desc:  'Бизнесийн хөгжил, тэлэлтэд зориулсан урт хугацааны зээл.',
+    icon:  'business_center',
+    terms: ['Хугацаа: 60 сар хүртэл','Хүү: 36–42%','Барьцаа шаардагдана'],
+    reqs:  ['Тогтвортой орлоготой байх','Барьцаа хөрөнгөтэй байх'],
+    docs:  ['ААН-ийн бичиг баримт','Санхүүгийн тайлан','Барьцааны бичиг'],
+  },
+  'green': {
+    title: 'Ногоон зээл',
+    desc:  'Байгаль орчинд ээлтэй хөрөнгө оруулалтад.',
+    icon:  'eco',
+    terms: ['Хүү: хөнгөлөлттэй нөхцөл','Нарны панель, цахилгаан машин гэх мэт'],
+    reqs:  ['18 нас хүрсэн','Ногоон зорилготой байх'],
+    docs:  ['Иргэний үнэмлэх','Төслийн нотолгоо'],
+  },
+  'itgelts-collateral': {
+    title: 'Итгэлцэл барьцаалсан зээл',
+    desc:  'Итгэлцэл хуримтлалаа барьцаалж авах зээл.',
+    icon:  'savings',
+    terms: ['Итгэлцэл дүнгийн 80% хүртэл','Хүү: 24% хүртэл'],
+    reqs:  ['Идэвхтэй итгэлцэлтэй байх'],
+    docs:  ['Иргэний үнэмлэх','Итгэлцэлийн гэрчилгээ'],
+  },
+  'bond-collateral': {
+    title: 'Бонд барьцаалсан зээл',
+    desc:  'Бондоо барьцаалж шуурхай зээл авах.',
+    icon:  'receipt_long',
+    terms: ['Бондын үнийн 70% хүртэл','Хурдан шийдвэрлэлт'],
+    reqs:  ['Идэвхтэй бондтой байх'],
+    docs:  ['Иргэний үнэмлэх','Бондын гэрчилгээ'],
+  },
+  'express': {
+    title: 'Шуурхай зээл',
+    desc:  'Яаралтай хэрэгцээнд зориулсан хурдан зээл.',
+    icon:  'bolt',
+    terms: ['24 цагийн дотор шийдвэрлэнэ','Хугацаа: 12 сар хүртэл','Хүү: 42%'],
+    reqs:  ['18 нас хүрсэн','Иргэний үнэмлэх'],
+    docs:  ['Иргэний үнэмлэх'],
+  },
+  'realestate': {
+    title: 'Үл хөдлөх хөрөнгө худалдан авах зээл',
+    desc:  'Орон сууц, барилга худалдаж авахад зориулсан зээл.',
+    icon:  'apartment',
+    terms: ['Хугацаа: 120 сар хүртэл','Урьдчилгаа: 20%','Хүү: 36% (жилийн)'],
+    reqs:  ['18 нас хүрсэн','Тогтмол орлоготой байх','Барьцаа байх'],
+    docs:  ['Иргэний үнэмлэх','Үл хөдлөхийн гэрчилгээ','Орлогын нотолгоо'],
+  },
+};
+
+function showCat(cat) {
+  ['consumer','business','other'].forEach(c => {
+    document.getElementById('cat-'+c).style.display = c===cat ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.cat-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['consumer','business','other'][i]===cat);
+  });
+}
+
+function showDetail(id) {
+  const p = PRODUCTS[id];
+  if (!p) return;
+  document.getElementById('listView').style.display = 'none';
+  document.getElementById('detailView').classList.add('open');
+  document.getElementById('detailTitle').textContent = p.title;
+  document.getElementById('detailDesc').textContent  = p.desc;
+  document.getElementById('detailImg').innerHTML =
+    `<span class="material-symbols-outlined" style="font-size:72px;opacity:.18;color:var(--primary)">${p.icon}</span>`;
+  document.getElementById('detailTerms').innerHTML =
+    p.terms.map(t => `<div class="detail-item"><div class="detail-item-dot"></div><span>${t}</span></div>`).join('');
+  document.getElementById('detailReqs').innerHTML =
+    p.reqs.map(r => `<div class="detail-item"><div class="detail-item-dot"></div><span>${r}</span></div>`).join('');
+  document.getElementById('detailDocs').innerHTML =
+    p.docs.map(d => `<div class="detail-item"><div class="detail-item-dot"></div><span>${d}</span></div>`).join('');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function closeDetail() {
+  document.getElementById('listView').style.display = 'block';
+  document.getElementById('detailView').classList.remove('open');
+}
+</script>
+</body>
+</html>

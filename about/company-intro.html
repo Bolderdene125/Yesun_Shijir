@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Компанийн танилцуулга | Есөн Шижир Инвест</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    body{background:var(--bg);color:var(--text);}
+
+    /* Timeline section */
+    .tl-section{position:relative;height:560px;overflow:hidden;margin:0 0 40px;}
+
+    /* Belt */
+    .tl-belt{
+      position:absolute;top:0;left:0;height:100%;
+      display:flex;align-items:stretch;
+      animation:beltScroll var(--belt-dur,80s) linear infinite;
+      will-change:transform;
+    }
+    @keyframes beltScroll{0%{transform:translateX(0)}100%{transform:translateX(var(--belt-shift,-50%))}}
+
+    /* Center line */
+    .tl-line{position:absolute;top:50%;left:0;right:0;height:2px;background:var(--border);transform:translateY(-50%);pointer-events:none;z-index:0;}
+    html.dark .tl-line{background:#2a3a2b;}
+
+    /* Column */
+    .tl-col{position:relative;flex-shrink:0;display:flex;flex-direction:column;align-items:center;height:100%;}
+    .tl-col.minor{width:50px;}
+    .tl-col.major{width:240px;}
+
+    /* Minor dot */
+    .tl-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#b0c0b1;border:2px solid var(--bg);z-index:2;}
+    html.dark .tl-dot{background:#3a4a3b;}
+    .tl-minor-lbl{position:absolute;top:calc(50% + 12px);left:50%;transform:translateX(-50%);font-size:10px;color:var(--text-muted);font-family:var(--font-mono);white-space:nowrap;z-index:2;}
+
+    /* Badge */
+    .tl-badge{
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:58px;height:58px;border-radius:50%;
+      background:var(--primary);color:#fff;
+      display:flex;align-items:center;justify-content:center;
+      font-size:11px;font-weight:800;font-family:var(--font-mono);
+      z-index:5;cursor:pointer;
+      box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--primary);
+      transition:transform .2s,box-shadow .2s;
+    }
+    html.dark .tl-badge{color:#000;}
+    .tl-badge:hover{transform:translate(-50%,-50%) scale(1.1);}
+    .tl-badge.today{animation:pulse 2.5s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--primary),0 0 0 0 rgba(60,185,23,.4)}50%{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--primary),0 0 0 12px rgba(60,185,23,0)}}
+
+    /* Connector */
+    .tl-vert{position:absolute;left:50%;transform:translateX(-50%);width:2px;background:var(--primary);z-index:1;}
+    html.dark .tl-vert{background:#3CB917;}
+
+    /* Card */
+    .tl-card{
+      position:absolute;left:50%;transform:translateX(-50%);width:220px;
+      background:var(--bg-white);border:1px solid var(--border);
+      border-radius:10px;overflow:hidden;cursor:pointer;z-index:3;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    html.dark .tl-card{background:#1a231b;border-color:#2a3a2b;}
+    .tl-card:hover{border-color:var(--primary);box-shadow:0 4px 18px rgba(0,94,38,.12);}
+    .tl-card.above{bottom:calc(50% + 38px);}
+    .tl-card.below{top:calc(50% + 38px);}
+
+    .tl-card-img{width:100%;aspect-ratio:16/9;background:var(--bg-container);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+    html.dark .tl-card-img{background:#1e2d1f;}
+    .tl-card-body{padding:11px 13px 13px;}
+    .tl-card-title{font-size:12px;font-weight:700;color:var(--primary);margin-bottom:3px;}
+    .tl-card-desc{font-size:11px;line-height:1.55;color:var(--text-muted);}
+
+    /* Fade edges */
+    .tl-fade-l{position:absolute;left:0;top:0;bottom:0;width:80px;background:linear-gradient(to right,var(--bg),transparent);pointer-events:none;z-index:10;}
+    .tl-fade-r{position:absolute;right:0;top:0;bottom:0;width:80px;background:linear-gradient(to left,var(--bg),transparent);pointer-events:none;z-index:10;}
+
+    /* Speed controls */
+    .tl-controls{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
+    .speed-btn{padding:6px 16px;border-radius:99px;font-size:12px;font-weight:700;font-family:var(--font-mono);border:1.5px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;transition:all .15s;}
+    .speed-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+    html.dark .speed-btn.active{color:#000;}
+    .speed-btn:hover:not(.active){border-color:var(--primary);color:var(--primary);}
+
+    /* Popup */
+    .pop-overlay{position:fixed;inset:0;background:rgba(0,0,0,.48);backdrop-filter:blur(5px);z-index:300;display:none;align-items:center;justify-content:center;}
+    .pop-overlay.open{display:flex;}
+    .pop-box{background:var(--bg-white);border:1px solid var(--border);border-radius:var(--radius-xl);width:min(540px,92vw);max-height:82vh;overflow-y:auto;position:relative;box-shadow:0 28px 72px rgba(0,0,0,.22);animation:popIn .22s ease;}
+    @keyframes popIn{from{opacity:0;transform:scale(.93) translateY(10px)}to{opacity:1;transform:none}}
+    html.dark .pop-box{background:#1a231b;border-color:#2a3a2b;}
+    .pop-close{position:absolute;top:13px;right:13px;width:32px;height:32px;border-radius:50%;background:var(--bg-container);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);z-index:10;}
+    .pop-close:hover{background:var(--bg-low);}
+    .pop-img{width:100%;aspect-ratio:16/9;background:var(--bg-container);display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:14px 14px 0 0;}
+    html.dark .pop-img{background:#1e2d1f;}
+    .pop-body{padding:22px 24px;}
+    .pop-year{font-size:11px;font-weight:700;font-family:var(--font-mono);color:var(--primary);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;}
+    .pop-title{font-size:20px;font-weight:800;font-family:var(--font-head);margin-bottom:10px;}
+    .pop-desc{font-size:14px;line-height:1.75;color:var(--text-sec);}
+    html.dark .pop-desc{color:#b0bdb1;}
+    .pop-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px;}
+    .pop-tag{font-size:11px;font-weight:700;font-family:var(--font-mono);padding:3px 10px;border-radius:99px;background:rgba(0,94,38,.1);color:var(--primary);}
+    html.dark .pop-tag{background:rgba(60,185,23,.13);}
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<main>
+  <div class="container section-pad" style="padding-bottom:20px;">
+    <div class="breadcrumb">
+      <a href="index.html" data-mn="Нүүр" data-en="Home">Нүүр</a><span>/</span>
+      <span data-mn="Компанийн танилцуулга" data-en="Company Profile">Компанийн танилцуулга</span>
+    </div>
+    <div style="margin-bottom:32px;">
+      <span class="page-tag">Бидний тухай</span>
+      <h1 class="page-title" data-mn="Компанийн танилцуулга" data-en="Company Profile">Компанийн танилцуулга</h1>
+      <p class="page-desc" data-mn="Есөн Шижир Инвест ББСБ — 1997 оноос эхлэн иргэд, бизнест найдвартай санхүүгийн үйлчилгээ үзүүлж байна." data-en="Yesun Shijir Invest NBFI — serving individuals and businesses with reliable financial services since 1997.">
+        Есөн Шижир Инвест ББСБ — 1997 оноос эхлэн иргэд, бизнест найдвартай санхүүгийн үйлчилгээ үзүүлж байна.
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:48px;">
+      <div class="stat-card"><div class="stat-num" style="font-size:32px;">1997</div><div class="stat-lbl" data-mn="Үндэслэгдсэн он" data-en="Founded">Үндэслэгдсэн он</div></div>
+      <div class="stat-card"><div class="stat-num" style="font-size:32px;">11+</div><div class="stat-lbl" data-mn="Салбар" data-en="Branches">Салбар</div></div>
+      <div class="stat-card"><div class="stat-num" style="font-size:32px;">5000+</div><div class="stat-lbl" data-mn="Харилцагч" data-en="Customers">Харилцагч</div></div>
+      <div class="stat-card"><div class="stat-num" style="font-size:32px;">ISO</div><div class="stat-lbl">9001 + 27001</div></div>
+    </div>
+
+    <!-- Timeline title -->
+    <h2 style="font-size:22px;font-weight:800;font-family:var(--font-head);margin-bottom:6px;" data-mn="Түүхэн замнал" data-en="Timeline">Түүхэн замнал</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;font-family:var(--font-mono);" data-mn="Картан дээр дарахад дэлгэрэнгүй мэдээлэл гарна" data-en="Click on a card for details">Картан дээр дарахад дэлгэрэнгүй мэдээлэл гарна</p>
+
+    <!-- Speed controls -->
+    <div class="tl-controls">
+      <span style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);align-self:center;margin-right:4px;">Хурд:</span>
+      <button class="speed-btn active" onclick="setSpeed(1)">1x</button>
+      <button class="speed-btn"       onclick="setSpeed(1.5)">1.5x</button>
+      <button class="speed-btn"       onclick="setSpeed(1.8)">1.8x</button>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <section class="tl-section">
+    <div class="tl-fade-l"></div>
+    <div class="tl-fade-r"></div>
+    <div class="tl-line"></div>
+    <div class="tl-belt" id="tlBelt"></div>
+  </section>
+</main>
+
+<!-- Popup -->
+<div class="pop-overlay" id="popOverlay" onclick="onOvClick(event)">
+  <div class="pop-box" id="popBox">
+    <button class="pop-close" onclick="closePop()"><span class="material-symbols-outlined" style="font-size:17px">close</span></button>
+    <div class="pop-img" id="popImg"></div>
+    <div class="pop-body">
+      <p class="pop-year" id="popYear"></p>
+      <h2 class="pop-title" id="popTitle"></h2>
+      <p class="pop-desc" id="popDesc"></p>
+      <div class="pop-tags" id="popTags"></div>
+    </div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+<script>
+/*
+  Шинэ он нэмэхдээ DATA array-д нэмнэ:
+    { id:"2027", year:2027, major:true, title:"...", desc:"...", fullDesc:"...", img:null, icon:"...", tags:[] }
+  Minor он:  { id:"2028", year:2028, major:false }
+*/
+const DATA=[
+  {id:"1997",year:1997,major:true,title:"Үндэслэгдсэн",desc:'"Шижир тулгат" ЗБН — барьцаалан зээл.',fullDesc:'"Шижир тулгат" ЗБН нь 1997 онд байгуулагдаж, барьцаалан зээлийн үйл ажиллагааг эхлүүлсэн нь Есөн Шижир Инвест ББСБ-ын угтвар болсон.',img:null,icon:"business",tags:["Үндэслэгдсэн","ЗБН"]},
+  {id:"1998",year:1998,major:false},{id:"1999",year:1999,major:false},{id:"2000",year:2000,major:false},{id:"2001",year:2001,major:false},
+  {id:"2002",year:2002,major:true,title:'"Есөн дэлбээ" ХЗХ',desc:'ХЗХ болж өргөжсөн — хадгаламж, зээлийн хоршоо.',fullDesc:'2002 онд "Есөн дэлбээ" Хадгаламж Зээлийн Хоршоо болон өөрчлөгдөж, гишүүнчлэлийн суурийг ихэсгэн, хадгаламжийн үйлчилгээг нэвтрүүлсэн.',img:null,icon:"groups",tags:["ХЗХ","Хоршоо"]},
+  {id:"2003",year:2003,major:false},{id:"2004",year:2004,major:false},
+  {id:"2005",year:2005,major:true,title:'"Есөн шижир" ХХК',desc:'ХХК болж өргөжсөн.',fullDesc:'2005 онд "Есөн шижир" Хязгаарлагдмал Хариуцлагатай Компани болон шилжиж, бизнесийн хүрээг улам тэлсэн.',img:null,icon:"apartment",tags:["ХХК","Өргөтгөл"]},
+  {id:"2006",year:2006,major:false},{id:"2007",year:2007,major:false},{id:"2008",year:2008,major:false},
+  {id:"2009",year:2009,major:false},{id:"2010",year:2010,major:false},{id:"2011",year:2011,major:false},{id:"2012",year:2012,major:false},
+  {id:"2013",year:2013,major:true,title:"Есөн Шижир Инвест ББСБ",desc:"СЗХ-ны зөвшөөрлийг авч, ББСБ болж зохион байгуулагдав.",fullDesc:'2013 онд "Есөн Шижир Инвест" ББСБ болон дахин зохион байгуулагдаж, Монгол Улсын Санхүүгийн Зохицуулах Хорооны зөвшөөрлийг авав.',img:null,icon:"account_balance",tags:["ББСБ","СЗХ"]},
+  {id:"2014",year:2014,major:false},{id:"2015",year:2015,major:false},
+  {id:"2016",year:2016,major:true,title:"Үйл ажиллагааны өргөтгөл",desc:"Харилцагчдын тоо 500-д хүрэв.",fullDesc:"2016 оноос зээлийн бүтээгдэхүүнийхээ хүрээг өргөжүүлж, харилцагчдын тоо 500-д хүрлээ.",img:null,icon:"trending_up",tags:["Өргөтгөл","500+"]},
+  {id:"2017",year:2017,major:false},{id:"2018",year:2018,major:false},
+  {id:"2019",year:2019,major:true,title:"ISO 9001:2015",desc:"Чанарын менежментийн гэрчилгээ авав.",fullDesc:"2019 онд ISO 9001:2015 Чанарын менежментийн системийн гэрчилгээг авлаа.",img:null,icon:"verified",tags:["ISO 9001","Чанар"]},
+  {id:"2020",year:2020,major:false},
+  {id:"2021",year:2021,major:true,title:"ХБҮЦ — ABS",desc:'"Есөн Шижир ABS ТЗК" ХХК байгуулагдав.',fullDesc:'2021 онд "Есөн Шижир ABS ТЗК" ХХК байгуулагдаж, ABS үнэт цаасны анхдагч зах зээл нээгдэв.',img:null,icon:"currency_exchange",tags:["ХБҮЦ","ABS"]},
+  {id:"2022",year:2022,major:true,title:"ISO 27001:2022",desc:"Мэдээллийн аюулгүй байдлын стандарт.",fullDesc:"2022 онд ISO/IEC 27001:2022 Мэдээллийн аюулгүй байдлын менежментийн гэрчилгээг авлаа.",img:null,icon:"security",tags:["ISO 27001","Аюулгүй байдал"]},
+  {id:"2023",year:2023,major:false},
+  {id:"2024",year:2024,major:true,title:"5,000+ харилцагч",desc:"Нийт зээл ₮50 тэрбумд хүрэв.",fullDesc:"2024 он гэхэд харилцагчдын тоо 5,000-аас давж, нийт зээлийн дүн 50 тэрбум төгрөгт хүрлээ.",img:null,icon:"people",tags:["5000+","₮50 тэрбум"]},
+  {id:"2025",year:2025,major:true,title:"Шинэ бүтээгдэхүүн",desc:"Итгэлцлийн шинэ бүтээгдэхүүн нэвтрүүлэв.",fullDesc:"2025 онд Итгэлцэл хуримтлалын шинэ бүтээгдэхүүнүүдийг нэвтрүүллээ.",img:null,icon:"rocket_launch",tags:["Итгэлцэл","Шинэ"]},
+  {id:"2026",year:2026,major:true,title:"Өнөөдөр",desc:"Монголын тэргүүлэгч ББСБ.",fullDesc:"Өнөөдөр Есөн Шижир Инвест ББСБ нь Монголын санхүүгийн зах зээлд найдвартай, ил тод байгууллагын нэр хүндтэй.",img:null,icon:"flag",tags:["Өнөөдөр","Тэргүүлэгч"]},
+];
+
+const SECTION_H=560, HALF=280, BADGE_R=29, CARD_H=200, GAP=8;
+const belt=document.getElementById('tlBelt');
+let baseDur=0;
+
+function buildCols(container){
+  let mIdx=0;
+  DATA.forEach(d=>{
+    const col=document.createElement('div');
+    col.className='tl-col '+(d.major?'major':'minor');
+    if(!d.major){
+      const dot=document.createElement('div'); dot.className='tl-dot'; col.appendChild(dot);
+      const lbl=document.createElement('span'); lbl.className='tl-minor-lbl'; lbl.textContent=d.year; col.appendChild(lbl);
+    } else {
+      const above=(mIdx%2===0); mIdx++;
+      // Badge
+      const badge=document.createElement('div');
+      badge.className='tl-badge'+(d.year===2026?' today':'');
+      badge.textContent=d.year; badge.title=d.title;
+      badge.addEventListener('click',()=>openPop(d));
+      col.appendChild(badge);
+      // Connector
+      const conn=document.createElement('div'); conn.className='tl-vert';
+      if(above){conn.style.cssText=`bottom:calc(50% + ${BADGE_R}px);height:${CARD_H+GAP}px;`;}
+      else{conn.style.cssText=`top:calc(50% + ${BADGE_R}px);height:${CARD_H+GAP}px;`;}
+      col.appendChild(conn);
+      // Card
+      const card=document.createElement('div');
+      card.className='tl-card '+(above?'above':'below');
+      card.innerHTML=
+        `<div class="tl-card-img"><span class="material-symbols-outlined" style="font-size:26px;opacity:.2;color:var(--primary)">${d.icon||'star'}</span></div>`+
+        `<div class="tl-card-body"><p class="tl-card-title">${d.title}</p><p class="tl-card-desc">${d.desc}</p></div>`;
+      card.addEventListener('click',()=>openPop(d));
+      col.appendChild(card);
+    }
+    container.appendChild(col);
+  });
+}
+
+function initBelt(){
+  belt.innerHTML='';
+  const setA=document.createElement('div');
+  setA.style.cssText='display:flex;align-items:stretch;height:100%;flex-shrink:0;';
+  buildCols(setA); belt.appendChild(setA);
+  requestAnimationFrame(()=>{
+    const w=setA.scrollWidth;
+    const setB=setA.cloneNode(true);
+    // Re-bind click events on clone
+    setB.querySelectorAll('.tl-badge').forEach(b=>{
+      const yr=parseInt(b.textContent); const d=DATA.find(x=>x.year===yr);
+      if(d) b.addEventListener('click',()=>openPop(d));
+    });
+    setB.querySelectorAll('.tl-card').forEach(c=>{
+      const t=c.querySelector('.tl-card-title');
+      if(t){ const d=DATA.find(x=>x.title===t.textContent); if(d) c.addEventListener('click',()=>openPop(d)); }
+    });
+    belt.appendChild(setB);
+    belt.style.setProperty('--belt-shift',`-${w}px`);
+    baseDur=Math.round(w/50);
+    belt.style.setProperty('--belt-dur',`${baseDur}s`);
+  });
+}
+
+function setSpeed(x){
+  document.querySelectorAll('.speed-btn').forEach((b,i)=>b.classList.toggle('active',[1,1.5,1.8][i]===x));
+  belt.style.setProperty('--belt-dur',`${Math.round(baseDur/x)}s`);
+}
+
+function openPop(d){
+  document.getElementById('popYear').textContent=d.year+' он';
+  document.getElementById('popTitle').textContent=d.title;
+  document.getElementById('popDesc').textContent=d.fullDesc||d.desc;
+  document.getElementById('popImg').innerHTML=`<span class="material-symbols-outlined" style="font-size:56px;opacity:.18;color:var(--primary)">${d.icon||'star'}</span>`;
+  document.getElementById('popTags').innerHTML=(d.tags||[]).map(t=>`<span class="pop-tag">${t}</span>`).join('');
+  document.getElementById('popOverlay').classList.add('open');
+  belt.style.animationPlayState='paused';
+  document.body.style.overflow='hidden';
+}
+function closePop(){
+  document.getElementById('popOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  belt.style.animationPlayState='running';
+}
+function onOvClick(e){if(e.target===document.getElementById('popOverlay'))closePop();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePop();});
+initBelt();
+</script>
+</body>
+</html>

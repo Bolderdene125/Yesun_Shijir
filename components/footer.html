@@ -1,0 +1,105 @@
+<style>
+.site-footer { background: var(--bg-low); border-top: 1px solid var(--border); margin-top: 80px; }
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr;
+  gap: 40px; max-width: 1280px; margin: 0 auto;
+  padding: 56px 64px 40px;
+}
+@media(max-width:1024px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.footer-grid{grid-template-columns:1fr;padding:36px 20px 28px;}}
+.footer-brand { font-size: 18px; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--primary); margin-bottom: 10px; }
+.footer-desc  { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; font-family: 'JetBrains Mono', monospace;
+  color: var(--primary); margin-bottom: 14px;
+}
+.footer-col a, .footer-col p {
+  display: block; font-size: 14px; color: var(--text-muted);
+  margin-bottom: 9px; transition: color .15s; text-decoration: none;
+}
+.footer-col a:hover { color: var(--primary); }
+.footer-subscribe { display: flex; gap: 8px; margin-bottom: 16px; }
+.footer-subscribe input {
+  flex: 1; padding: 9px 13px; border-radius: 8px;
+  border: 1.5px solid var(--border); background: var(--bg-surface);
+  color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; outline: none;
+  transition: border-color .15s;
+}
+.footer-subscribe input:focus { border-color: var(--primary); }
+.footer-subscribe button {
+  padding: 9px 14px; background: var(--primary); color: #fff;
+  border: none; border-radius: 8px; cursor: pointer; transition: opacity .15s;
+}
+.footer-subscribe button:hover { opacity: .88; }
+html.dark .footer-subscribe button { color: #000; }
+.footer-social { display: flex; gap: 10px; }
+.footer-social a {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid var(--border); display: flex; align-items: center;
+  justify-content: center; color: var(--text-muted); margin-bottom: 0;
+  transition: border-color .15s, color .15s;
+}
+.footer-social a:hover { border-color: var(--primary); color: var(--primary); }
+.footer-bottom {
+  max-width: 1280px; margin: 0 auto;
+  padding: 16px 64px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+}
+@media(max-width:640px){.footer-bottom{padding:14px 20px;text-align:center;}}
+.footer-bottom p { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+</style>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <!-- Brand -->
+    <div>
+      <div class="footer-brand">Yesun Shijir Invest</div>
+      <p class="footer-desc" data-mn="Бид таны санхүүгийн итгэлт түнш байж, хамтын өсөлтийг бүтээх болно. Монгол Улсын Санхүүгийн Зохицуулах Хорооны зөвшөөрлийн дагуу үйл ажиллагаа явуулдаг ББСБ." data-en="We are your trusted financial partner. A regulated NBFI operating under the Financial Regulatory Commission of Mongolia.">
+        Бид таны санхүүгийн итгэлт түнш байж, хамтын өсөлтийг бүтээх болно.
+      </p>
+    </div>
+
+    <!-- Links -->
+    <div class="footer-col">
+      <h4 data-mn="Холбоосууд" data-en="Links">Холбоосууд</h4>
+      <a href="/about/tuz-mendchilgee.html"  data-mn="Бидний тухай"      data-en="About Us">Бидний тухай</a>
+      <a href="/products/index.html"          data-mn="Бүтээгдэхүүн"      data-en="Products">Бүтээгдэхүүн</a>
+      <a href="/investment/itgelts.html"      data-mn="Хөрөнгө оруулалт"  data-en="Investment">Хөрөнгө оруулалт</a>
+      <a href="/hr/index.html"           data-mn="Хүний нөөц"         data-en="Careers">Хүний нөөц</a>
+      <a href="/news/index.html"              data-mn="Мэдээ мэдээлэл"     data-en="News">Мэдээ мэдээлэл</a>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-col">
+      <h4 data-mn="Холбоо барих" data-en="Contact">Холбоо барих</h4>
+      <p><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;margin-right:5px">location_on</span>Сүхбаатар дүүрэг, 2-р хороо, Twin Tower 1, 13 давхар</p>
+      <p><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;margin-right:5px">phone</span>+976 7753-5353</p>
+      <p><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;margin-right:5px">mail</span>info@yesunshijir.mn</p>
+    </div>
+
+    <!-- Newsletter + Social -->
+    <div class="footer-col">
+      <h4 data-mn="Мэдээлэл авах" data-en="Newsletter">Мэдээлэл авах</h4>
+      <div class="footer-subscribe">
+        <input type="email" placeholder="И-мэйл хаяг" data-mn-placeholder="И-мэйл хаяг" data-en-placeholder="Email address"/>
+        <button aria-label="Илгээх">
+          <span class="material-symbols-outlined" style="font-size:17px">send</span>
+        </button>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/yesunshijir" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p data-mn="© 2026 Есөн Шижир Инвест ББСБ. Бүх эрх хуулиар хамгаалагдсан." data-en="© 2026 Yesun Shijir Invest NBFI. All rights reserved.">
+      © 2026 Есөн Шижир Инвест ББСБ. Бүх эрх хуулиар хамгаалагдсан.
+    </p>
+  </div>
+</footer>

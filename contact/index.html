@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Холбоо барих | Есөн Шижир Инвест</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    .branch-list{display:flex;flex-direction:column;gap:12px;}
+    .branch-item{
+      display:flex;align-items:center;gap:0;
+      background:var(--bg-white);border:1px solid var(--border);
+      border-radius:var(--radius-xl);overflow:hidden;
+      border-left:4px solid transparent;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    .branch-item:hover{border-left-color:var(--primary);box-shadow:var(--shadow-md);}
+    .branch-item.open-now{border-left-color:var(--primary);}
+
+    .branch-main{flex:1;padding:18px 20px;min-width:0;}
+    .branch-name{font-size:16px;font-weight:700;font-family:var(--font-head);margin-bottom:2px;}
+    .branch-nick{font-size:11px;font-weight:700;font-family:var(--font-mono);letter-spacing:.06em;color:var(--primary);margin-bottom:10px;}
+    .branch-rows{display:flex;flex-direction:column;gap:5px;}
+    .branch-row{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text-muted);line-height:1.5;}
+    .branch-row .material-symbols-outlined{font-size:14px;flex-shrink:0;margin-top:1px;color:var(--primary);}
+    .open-badge{
+      display:inline-block;font-size:10px;font-weight:700;font-family:var(--font-mono);
+      padding:2px 8px;border-radius:99px;background:rgba(0,94,38,.1);color:var(--primary);
+      border:1px solid rgba(0,94,38,.2);margin-left:8px;vertical-align:middle;
+    }
+
+    .branch-actions{display:flex;flex-direction:column;gap:8px;padding:18px 18px 18px 8px;flex-shrink:0;}
+    .branch-btn{
+      display:flex;align-items:center;gap:6px;
+      padding:8px 14px;border-radius:var(--radius-md);
+      font-size:12px;font-weight:700;font-family:var(--font-head);
+      border:1.5px solid var(--border);background:transparent;
+      color:var(--text-sec);cursor:pointer;transition:all .15s;
+      white-space:nowrap;text-decoration:none;
+    }
+    .branch-btn:hover{border-color:var(--primary);color:var(--primary);background:var(--bg-low);}
+    .branch-btn .material-symbols-outlined{font-size:15px;}
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<main>
+  <div class="container section-pad">
+    <div class="breadcrumb">
+      <a href="index.html" data-mn="Нүүр" data-en="Home">Нүүр</a><span>/</span>
+      <span data-mn="Холбоо барих" data-en="Contact">Холбоо барих</span>
+    </div>
+    <div style="margin-bottom:36px;">
+      <span class="page-tag">Холбоо барих</span>
+      <h1 class="page-title" data-mn="Салбаруудын хаяг" data-en="Branch Locations">Салбаруудын хаяг</h1>
+      <p class="page-desc" data-mn="Бид Улаанбаатар хотын дүүрэг бүрт салбартайгаар харилцагч танд ойр үйл ажиллагааг явуулж байна." data-en="We operate branches across Ulaanbaatar to serve you better.">Бид Улаанбаатар хотын дүүрэг бүрт салбартайгаар харилцагч танд ойр үйл ажиллагааг явуулж байна.</p>
+    </div>
+
+    <div class="branch-list" id="branchList"></div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+<script>
+/*
+  Backend: Салбарын зураг нэмэхдээ data-img attribute-д замыг тохируулна.
+  Газрын зургийн URL нэмэхдээ mapUrl field-д Google Maps линкийг оруулна.
+  Утасны дугаар дарахад tel: protocol ашиглана.
+*/
+const BRANCHES=[
+  {name:"Төв оффис",nick:"ТӨВ САЛБАР",hours:"Даваа-Баасан, 09:00-18:00",workdays:[1,2,3,4,5],
+   addr:"Улаанбаатар хот, Сүхбаатар дүүрэг, 2-р хороо, Twin Tower 1, 13 давхар /1-р сургуулийн баруун урд/",
+   phone:"7013-5353, 7753-5353",
+   mapUrl:"https://maps.google.com/?q=Yesun+Shijir+Invest+Twin+Tower",
+   img:"/assets/branches/headquarters.jpg"},
+  {name:"Салбар-2",nick:"МОНГОЛ УЛСЫН ЦИРК",hours:"Даваа-Баасан, 09:00-18:00",workdays:[1,2,3,4,5],
+   addr:"Сүхбаатар дүүрэг, 3-р хороо, Усны гудамж-1, Үндэсний хөрөнгө оруулалтын байрны Б корпус",
+   phone:"9453-5353",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-2.jpg"},
+  {name:"Салбар-5",nick:"ДАШВААНЖИЛ ОФФИС",hours:"Даваа-Баасан, 09:00-18:00",workdays:[1,2,3,4,5],
+   addr:"Баянгол дүүрэг, 20-р хороо, Москвагийн гудамж 40-1 тоот /Автобусны 5-р буудлын урд/",
+   phone:"9953-5353",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-5.jpg"},
+  {name:"Салбар-6",nick:"ЯЛАЛТ ПЛАЗА",hours:"Даваа-Баасан, 09:00-18:00",workdays:[1,2,3,4,5],
+   addr:"Чингэлтэй дүүрэг, 5-р хороо, Ялалт плаза 5 давхар, 510 тоот /Нисдэг машин төвийн баруун талд/",
+   phone:"9553-5353",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-6.jpg"},
+  {name:"Салбар-7",nick:"SAFE BUSINESS CENTER",hours:"Мягмар-Бямба, 09:00-18:00",workdays:[2,3,4,5,6],
+   addr:"Баянзүрх дүүрэг, 24-р хороо, Эрдэнэтолгой гудамж, Safe Business Center 2 давхар, 16 тоот /Да хүрээ орох замд/",
+   phone:"9430-5353",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-7.jpg"},
+  {name:"Салбар-9",nick:"22-Р ТОВЧОО",hours:"Мягмар-Бямба, 09:00-18:00",workdays:[2,3,4,5,6],
+   addr:"Сонгинохайрхан дүүрэг, 32-р хороо, Авто худалдааны цогцолбор Автоком төвийн А блок 1 давхар, А106 тоот",
+   phone:"9513-5353",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-9.jpg"},
+  {name:"Салбар-11",nick:"HORSE MOTORS АВТО ТӨВ",hours:"Даваа-Баасан, 09:00-18:00",workdays:[1,2,3,4,5],
+   addr:"Хан-Уул дүүрэг, 5-р хороо, Наадамчдын зам, Horse Motors авто худалдааны төв 3 давхар, 307 тоот",
+   phone:"9483-5353",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-11.jpg"},
+  {name:"Салбар-13",nick:"ЗҮҮН 4 ЗАМ САЛБАР",hours:"Даваа-Баасан, 10:00-19:00",workdays:[1,2,3,4,5],
+   addr:"Баянзүрх дүүрэг, 15-р хороо, Kharkhorum plaza худалдааны төв 4 давхар, 404 тоот",
+   phone:"9401-5253",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-13.jpg"},
+  {name:"Салбар-14",nick:"САКУРА ТӨВ",hours:"Даваа-Баасан, 09:00-18:00",workdays:[1,2,3,4,5],
+   addr:"Баянзүрх дүүрэг, 26-р хороо, Sakura цамхаг, 9 давхар, 904 тоот",
+   phone:"8953-5353",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-14.jpg"},
+  {name:"Салбар-1",nick:"БАГАНУУР САЛБАР",hours:"Даваа-Баасан, 09:00-18:00",workdays:[1,2,3,4,5],
+   addr:"Багануур дүүрэг, 3-р хороо, Нацагдоржийн гудамж, ДОУН Төвийн 2 давхарт 55 тоот",
+   phone:"9473-5353",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-1.jpg"},
+  {name:"Салбар-12",nick:"ЭРДЭНЭТ САЛБАР",hours:"Даваа-Баасан, 09:00-18:00",workdays:[1,2,3,4,5],
+   addr:"Орхон аймаг, Баян-Өндөр 5-р баг, Уртбулаг, Амгалан Оршихуй ордон 3 давхар, 302 тоот",
+   phone:"9444-5353",mapUrl:"https://maps.google.com",img:"/assets/branches/branch-12.jpg"},
+];
+
+function isOpen(b){
+  const now=new Date(); const day=now.getDay();
+  const h=now.getHours(); const m=now.getMinutes();
+  const [start,end]=(b.hours.split(', ')[1]||'').split('-').map(t=>{const[hh,mm]=t.split(':').map(Number);return hh*60+mm;});
+  const cur=h*60+m;
+  return b.workdays.includes(day) && cur>=start && cur<=end;
+}
+
+function render(){
+  document.getElementById('branchList').innerHTML=BRANCHES.map((b,i)=>`
+    <div class="branch-item${isOpen(b)?' open-now':''} animate-in" style="animation-delay:${i*.04}s">
+      <div class="branch-main">
+        <p class="branch-name">${b.name}${isOpen(b)?'<span class="open-badge">Нээлттэй</span>':''}</p>
+        <p class="branch-nick">/ ${b.nick} /</p>
+        <div class="branch-rows">
+          <div class="branch-row"><span class="material-symbols-outlined">schedule</span>${b.hours}</div>
+          <div class="branch-row"><span class="material-symbols-outlined">location_on</span>${b.addr}</div>
+          <div class="branch-row"><span class="material-symbols-outlined">phone</span>${b.phone}</div>
+        </div>
+      </div>
+      <div class="branch-actions">
+        <a class="branch-btn" href="${b.mapUrl}" target="_blank" rel="noopener">
+          <span class="material-symbols-outlined">map</span>Газрын зураг
+        </a>
+        <a class="branch-btn" href="tel:+976${b.phone.replace(/[^0-9]/g,'')}">
+          <span class="material-symbols-outlined">phone</span>Залгах
+        </a>
+      </div>
+    </div>
+  `).join('');
+}
+render();
+</script>
+</body>
+</html>

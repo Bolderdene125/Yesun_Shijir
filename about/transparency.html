@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Ил тод байдал | Есөн Шижир Инвест</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    .block { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; padding:48px 0; border-bottom:1px solid var(--border); }
+    .block:last-child { border-bottom:none; }
+    .block.reverse { direction:rtl; }
+    .block.reverse > * { direction:ltr; }
+    @media(max-width:768px){ .block, .block.reverse { grid-template-columns:1fr; direction:ltr; } }
+    .block-img { aspect-ratio:4/3; border-radius:var(--radius-xl); background:var(--bg-container); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .block-img img { width:100%; height:100%; object-fit:cover; }
+    .block-text h2 { font-size:22px; font-weight:800; font-family:var(--font-head); margin-bottom:14px; }
+    .block-text p  { font-size:15px; color:var(--text-muted); line-height:1.75; margin-bottom:16px; }
+    .doc-item {
+      display:flex; align-items:center; gap:12px; padding:12px 16px;
+      background:var(--bg-white); border:1px solid var(--border);
+      border-radius:var(--radius-md); margin-bottom:10px; cursor:pointer;
+      transition:border-color .15s, background .15s; text-decoration:none; color:inherit;
+    }
+    .doc-item:hover { border-color:var(--primary); background:var(--bg-low); }
+    .doc-item .material-symbols-outlined { color:var(--primary); flex-shrink:0; }
+    .doc-item-info { flex:1; }
+    .doc-item-info p     { font-size:14px; font-weight:600; margin-bottom:2px; }
+    .doc-item-info small { font-size:12px; color:var(--text-muted); font-family:var(--font-mono); }
+    .doc-item-open { color:var(--text-muted); font-size:14px; transition:color .15s; }
+    .doc-item:hover .doc-item-open { color:var(--primary); }
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+
+<main>
+  <div class="container section-pad">
+    <div class="breadcrumb">
+      <a href="index.html">Нүүр</a><span>/</span>
+      <a href="about/tuz-mendchilgee.html">Бидний тухай</a><span>/</span>
+      <span>Ил тод байдал</span>
+    </div>
+    <div style="margin-bottom:40px">
+      <span class="page-tag">Ил тод байдал</span>
+      <h1 class="page-title">Ил тод байдал</h1>
+      <p class="page-desc">Бид санхүүгийн үйл ажиллагаагаа нийтэд нээлттэй, ил тод байдлаар тайлагнаж ажилладаг.</p>
+    </div>
+
+    <!-- Block 1 -->
+    <div class="block">
+      <div class="block-img"><span class="material-symbols-outlined" style="font-size:56px;opacity:.2;color:var(--primary)">bar_chart</span></div>
+      <div class="block-text animate-in">
+        <h2>Жилийн аудитаар баталгаажуулсан санхүүгийн тайлан</h2>
+        <p>Байгууллагын жилийн санхүүгийн тайланг олон улсын аудитын компаниар баталгаажуулж нийтэд ил болгодог.</p>
+        <!-- Click on item → opens PDF -->
+        <a class="doc-item" href="assets/reports/annual-2024.pdf" target="_blank">
+          <span class="material-symbols-outlined">picture_as_pdf</span>
+          <div class="doc-item-info"><p>2024 оны жилийн эцсийн тайлан</p><small>PDF · 2025-01-20</small></div>
+          <span class="material-symbols-outlined doc-item-open">open_in_new</span>
+        </a>
+        <a class="doc-item" href="assets/reports/annual-2023.pdf" target="_blank">
+          <span class="material-symbols-outlined">picture_as_pdf</span>
+          <div class="doc-item-info"><p>2023 оны жилийн эцсийн тайлан</p><small>PDF · 2024-01-18</small></div>
+          <span class="material-symbols-outlined doc-item-open">open_in_new</span>
+        </a>
+        <a class="doc-item" href="assets/reports/annual-2022.pdf" target="_blank">
+          <span class="material-symbols-outlined">picture_as_pdf</span>
+          <div class="doc-item-info"><p>2022 оны жилийн эцсийн тайлан</p><small>PDF · 2023-01-15</small></div>
+          <span class="material-symbols-outlined doc-item-open">open_in_new</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Block 2 -->
+    <div class="block reverse">
+      <div class="block-img"><span class="material-symbols-outlined" style="font-size:56px;opacity:.2;color:var(--primary)">policy</span></div>
+      <div class="block-text animate-in">
+        <h2>Бодлого журам</h2>
+        <p>Байгууллагын үйл ажиллагааг зохицуулах бодлого, дотоод журмыг нийтэд нээлттэй байлгадаг.</p>
+        <a class="doc-item" href="assets/policies/credit-policy.pdf" target="_blank">
+          <span class="material-symbols-outlined">gavel</span>
+          <div class="doc-item-info"><p>Зээлийн бодлого</p><small>PDF · 2024</small></div>
+          <span class="material-symbols-outlined doc-item-open">open_in_new</span>
+        </a>
+        <a class="doc-item" href="assets/policies/security-policy.pdf" target="_blank">
+          <span class="material-symbols-outlined">security</span>
+          <div class="doc-item-info"><p>Мэдээллийн аюулгүй байдлын бодлого</p><small>PDF · 2022</small></div>
+          <span class="material-symbols-outlined doc-item-open">open_in_new</span>
+        </a>
+        <a class="doc-item" href="assets/policies/compliance.pdf" target="_blank">
+          <span class="material-symbols-outlined">verified_user</span>
+          <div class="doc-item-info"><p>Нийцлийн журам</p><small>PDF · 2024</small></div>
+          <span class="material-symbols-outlined doc-item-open">open_in_new</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+</body>
+</html>

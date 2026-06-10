@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Удирдлагын баг | Есөн Шижир Инвест</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    .team-tabs{display:flex;gap:4px;margin-bottom:36px;}
+    .team-tab{padding:10px 24px;border-radius:99px;font-size:14px;font-weight:700;font-family:var(--font-head);border:1.5px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;transition:all .15s;}
+    .team-tab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+    html.dark .team-tab.active{color:#000;}
+    .team-tab:hover:not(.active){border-color:var(--primary);color:var(--primary);}
+
+    /* Circle grid — 4 columns */
+    .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 20px;}
+    @media(max-width:1024px){.team-grid{grid-template-columns:repeat(3,1fr);}}
+    @media(max-width:640px){.team-grid{grid-template-columns:repeat(2,1fr);}}
+
+    .team-card{display:flex;flex-direction:column;align-items:center;cursor:pointer;text-align:center;padding:8px 0;}
+    .team-card:hover .team-avatar{transform:scale(1.04);box-shadow:0 8px 28px rgba(0,94,38,.18);}
+
+    .team-avatar{
+      width:120px;height:120px;border-radius:50%;overflow:hidden;
+      background:var(--bg-container);transition:transform .2s,box-shadow .2s;
+      margin-bottom:14px;flex-shrink:0;
+      border:3px solid transparent;
+    }
+    .team-card:hover .team-avatar{border-color:var(--primary);}
+    .team-avatar img{width:100%;height:100%;object-fit:cover;}
+    .team-avatar-init{
+      width:100%;height:100%;background:var(--primary);
+      display:flex;align-items:center;justify-content:center;
+      font-size:22px;font-weight:800;font-family:var(--font-head);color:#fff;
+    }
+    html.dark .team-avatar-init{color:#000;}
+
+    .team-name{font-size:15px;font-weight:700;font-family:var(--font-head);color:var(--text);margin-bottom:4px;}
+    .team-role{font-size:12px;color:var(--text-muted);line-height:1.4;}
+
+    /* Popup */
+    .pop-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:400;display:none;align-items:center;justify-content:center;padding:20px;}
+    .pop-overlay.open{display:flex;}
+    .pop-box{background:var(--bg-white);border:1px solid var(--border);border-radius:var(--radius-xl);width:min(520px,92vw);max-height:86vh;overflow-y:auto;position:relative;box-shadow:0 28px 80px rgba(0,0,0,.22);animation:popIn .22s ease;}
+    @keyframes popIn{from{opacity:0;transform:scale(.93) translateY(12px)}to{opacity:1;transform:none}}
+    html.dark .pop-box{background:#1e271f;}
+    .pop-close{position:absolute;top:13px;right:13px;width:32px;height:32px;border-radius:50%;background:var(--bg-container);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);z-index:1;transition:background .15s;}
+    .pop-close:hover{background:var(--bg-low);}
+    .pop-top{display:flex;gap:18px;align-items:flex-start;padding:28px 28px 20px;border-bottom:1px solid var(--border);}
+    .pop-photo{width:80px;height:80px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--bg-container);}
+    .pop-photo img{width:100%;height:100%;object-fit:cover;}
+    .pop-photo-init{width:80px;height:80px;border-radius:50%;flex-shrink:0;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;font-family:var(--font-head);}
+    html.dark .pop-photo-init{color:#000;}
+    .pop-name{font-size:19px;font-weight:800;font-family:var(--font-head);margin-bottom:3px;}
+    .pop-role{font-size:13px;color:var(--primary);font-weight:700;font-family:var(--font-mono);margin-bottom:2px;}
+    .pop-dept{font-size:13px;color:var(--text-muted);}
+    .pop-body{padding:18px 28px 24px;}
+    .pop-row{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;line-height:1.6;}
+    .pop-row:last-child{border-bottom:none;}
+    .pop-row .material-symbols-outlined{font-size:16px;color:var(--primary);flex-shrink:0;margin-top:2px;}
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<main>
+  <div class="container section-pad">
+    <div class="breadcrumb">
+      <a href="index.html" data-mn="Нүүр" data-en="Home">Нүүр</a><span>/</span>
+      <span data-mn="Удирдлагын баг" data-en="Leadership">Удирдлагын баг</span>
+    </div>
+    <div style="margin-bottom:30px;">
+      <span class="page-tag">Удирдлагын баг</span>
+      <h1 class="page-title" data-mn="Удирдлагын баг" data-en="Leadership Team">Удирдлагын баг</h1>
+      <p class="page-desc" data-mn="Манай байгууллагын амжилтын цаана туршлагатай, мэргэжлийн баг ажиллаж байна." data-en="Behind our success is a team of experienced professionals.">Манай байгууллагын амжилтын цаана туршлагатай, мэргэжлийн баг ажиллаж байна.</p>
+    </div>
+    <div class="team-tabs">
+      <button class="team-tab active" onclick="showTab('tuz')" data-mn="Төлөөлөн удирдах зөвлөл" data-en="Board of Directors">Төлөөлөн удирдах зөвлөл</button>
+      <button class="team-tab"       onclick="showTab('exec')" data-mn="Гүйцэтгэх удирдлагын баг" data-en="Executive Team">Гүйцэтгэх удирдлагын баг</button>
+    </div>
+    <div class="team-grid" id="teamGrid"></div>
+  </div>
+</main>
+
+<div class="pop-overlay" id="popOverlay" onclick="onOvClick(event)">
+  <div class="pop-box" id="popBox">
+    <button class="pop-close" onclick="closePop()">
+      <span class="material-symbols-outlined" style="font-size:17px">close</span>
+    </button>
+    <div class="pop-top" id="popTop"></div>
+    <div class="pop-body" id="popBody"></div>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+<script>
+/*
+  Зураг нэмэхдээ photo field-д /assets/team/m-gantulga.jpg гэх мэт замыг оруулна.
+  photo: null бол initials харуулна.
+*/
+const TEAMS = {
+  tuz:[
+    {id:1,init:'М.Г',name:'М.Гантулга',  role:'ТУЗ-ын дарга',              dept:'/Үүсгэн байгуулагч/',   exp:'20+ жил',edu:'МУИС — Эдийн засаг',           joined:'1997 оноос',bio:'Есөн Шижир Инвест ББСБ-ыг 1997 онд үүсгэн байгуулсан. Монголын санхүүгийн зах зээлд 20 гаруй жил ажилласан туршлагатай.',photo:null},
+    {id:2,init:'Б.Н',name:'Б.Наранчимэг', role:'ТУЗ-ын гишүүн',             dept:'/Хувьцаа эзэмшигч/',  exp:'15+ жил',edu:'ШУТИС — Санхүү',               joined:'2002 оноос',bio:'ТУЗ-ын гишүүнээр байгууллагын стратегийн удирдамжид оролцдог.',photo:null},
+    {id:3,init:'Д.Э',name:'Д.Энхбаатар',  role:'ТУЗ-ын харааат бус гишүүн', dept:'',                     exp:'12+ жил',edu:'МУИС — Хуульч',               joined:'2010 оноос',bio:'Санхүүгийн зохицуулалт, хуулийн мэргэжлээр байгууллагыг дэмждэг.',photo:null},
+    {id:4,init:'Э.Б',name:'Э.Болдбаатар', role:'ТУЗ-ын гишүүн',             dept:'',                     exp:'10+ жил',edu:'МУИС — Менежмент',            joined:'2015 оноос',bio:'Бизнесийн стратеги болон хөрөнгийн удирдлагын чиглэлээр ажилладаг.',photo:null},
+    {id:5,init:'О.Т',name:'О.Тунгалаг',   role:'ТУЗ-ын гишүүн',             dept:'',                     exp:'8+ жил', edu:'Санкт-Петербург ИС',         joined:'2018 оноос',bio:'Олон улсын санхүүгийн туршлагатай ТУЗ-ын гишүүн.',photo:null},
+    {id:6,init:'Д.С',name:'Д.Сүхбаатар',  role:'ТУЗ-ын гишүүн',             dept:'',                     exp:'9+ жил', edu:'МУИС — Нягтлан',             joined:'2016 оноос',bio:'Дотоод хяналт, нягтлан бодох бүртгэлийн чиглэлийн мэргэжилтэн.',photo:null},
+    {id:7,init:'Б.Д',name:'Б.Дагиймаа',   role:'ТУЗ-ын нарийн бичгийн дарга',dept:'',                    exp:'7+ жил', edu:'МУБИС — Удирдлага',          joined:'2019 оноос',bio:'ТУЗ-ын нарийн бичгийн дарга — хурлын бэлтгэл, баримт бичгийн удирдлага.',photo:null},
+  ],
+  exec:[
+    {id:10,init:'Б.Н',name:'Б.Наранчимэг', role:'Гүйцэтгэх захирал',          dept:'',exp:'15+ жил',edu:'ШУТИС — Санхүү',               joined:'2005 оноос',bio:'Байгууллагын гүйцэтгэх захирлаар тэргүүлж, стратегийн хөгжлийг удирддаг.',photo:null},
+    {id:11,init:'Б.Д',name:'Б.Даваахүү',   role:'Гүйцэтгэх захирлын орлогч', dept:'',exp:'12+ жил',edu:'МУИС — Санхүү',                joined:'2008 оноос',bio:'Гүйцэтгэх захирлын орлогчоор байгууллагын өдөр тутмын үйл ажиллагааг удирддаг.',photo:null},
+    {id:12,init:'Б.Э',name:'Б.Энхзориг',   role:'Бизнес хариуцсан захирал',   dept:'',exp:'11+ жил',edu:'МУИС — Менежмент',            joined:'2010 оноос',bio:'Бизнесийн хөгжил, зах зээлийн стратегийг хариуцдаг.',photo:null},
+    {id:13,init:'Т.Б',name:'Т.Бадам-Очир', role:'Технологи хариуцсан захирал',dept:'',exp:'10+ жил',edu:'ШУТИС — Программ хангамж',    joined:'2013 оноос',bio:'Мэдээллийн технологи, дижитал шийдлийн хөгжлийг удирддаг.',photo:null},
+    {id:14,init:'Б.М',name:'Б.Мягмаржав',  role:'Санхүү хариуцсан захирал',   dept:'',exp:'13+ жил',edu:'МУИС — Нягтлан бодох бүртгэл',joined:'2009 оноос',bio:'Санхүүгийн тайлан, бюджет, эрсдэлийн удирдлагыг хариуцдаг.',photo:null},
+    {id:15,init:'М.Д',name:'М.Доржсүрэн',  role:'Эрсдэл хариуцсан захирал',   dept:'',exp:'9+ жил', edu:'МУИС — Эдийн засаг',          joined:'2015 оноос',bio:'Байгууллагын эрсдэлийн удирдлага, дотоод хяналтыг хариуцдаг.',photo:null},
+    {id:16,init:'Н.Э',name:'Н.Энхжин',     role:'Санхүүгийн захирал',         dept:'',exp:'12 жил', edu:'МУБИС — Нягтлан бодох бүртгэл',joined:'2012 оноос',bio:'Санхүүгийн тайлан, бюджет, эрсдэлийн удирдлагыг хариуцдаг.',photo:null},
+    {id:17,init:'Б.М',name:'Б.Мөнхзул',    role:'Зээлийн хэлтсийн дарга',     dept:'',exp:'10 жил', edu:'ШУТИС — Эдийн засаг',         joined:'2014 оноос',bio:'Зээлийн үйл ажиллагааг удирдан зохион байгуулдаг.',photo:null},
+    {id:18,init:'О.Т',name:'О.Төгөлдөр',   role:'Хөрөнгө оруулалтын менежер',  dept:'',exp:'8 жил', edu:'МУИС — Санхүү',               joined:'2016 оноос',bio:'Итгэлцэл, ХБҮЦ, Бонд зэрэг бүтээгдэхүүнийг хариуцдаг.',photo:null},
+    {id:19,init:'Г.Д',name:'Г.Дэлгэрмаа',  role:'Хүний нөөцийн менежер',       dept:'',exp:'9 жил', edu:'МУИС — Хүний нөөц',           joined:'2015 оноос',bio:'Ажиллагсдыг сонгон шалгаруулах, сургалтын бодлогыг хэрэгжүүлдэг.',photo:null},
+    {id:20,init:'Ч.Б',name:'Ч.Батбаяр',    role:'IT хэлтсийн дарга',           dept:'',exp:'11 жил',edu:'ШУТИС — Программ хангамж',    joined:'2018 оноос',bio:'Мэдээллийн технологийн дэд бүтэц, кибер аюулгүй байдлыг хариуцдаг.',photo:null},
+  ]
+};
+
+let activeTab = new URLSearchParams(window.location.search).get('tab') || 'tuz';
+
+function showTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.team-tab').forEach((t,i) => t.classList.toggle('active', ['tuz','exec'][i] === tab));
+  const grid = document.getElementById('teamGrid');
+  grid.innerHTML = TEAMS[tab].map((m,i) => `
+    <div class="team-card animate-in" style="animation-delay:${i*.04}s" onclick="openPop(${m.id})">
+      <div class="team-avatar">
+        ${m.photo
+          ? `<img src="${m.photo}" alt="${m.name}"/>`
+          : `<div class="team-avatar-init">${m.init}</div>`}
+      </div>
+      <p class="team-name">${m.name}</p>
+      <p class="team-role">${m.role}</p>
+    </div>
+  `).join('');
+}
+
+function findM(id) { return [...TEAMS.tuz,...TEAMS.exec].find(m=>m.id===id); }
+
+function openPop(id) {
+  const m = findM(id);
+  if(!m) return;
+  document.getElementById('popTop').innerHTML = `
+    ${m.photo ? `<div class="pop-photo"><img src="${m.photo}" alt="${m.name}"/></div>` : `<div class="pop-photo-init">${m.init}</div>`}
+    <div><p class="pop-name">${m.name}</p><p class="pop-role">${m.role}</p>${m.dept?`<p class="pop-dept">${m.dept}</p>`:''}</div>
+  `;
+  document.getElementById('popBody').innerHTML = `
+    <div class="pop-row"><span class="material-symbols-outlined">work</span><div><strong>Туршлага:</strong> ${m.exp}</div></div>
+    <div class="pop-row"><span class="material-symbols-outlined">school</span><div><strong>Боловсрол:</strong> ${m.edu}</div></div>
+    <div class="pop-row"><span class="material-symbols-outlined">calendar_today</span><div><strong>Ажилласан:</strong> ${m.joined}</div></div>
+    <div class="pop-row"><span class="material-symbols-outlined">person</span><div>${m.bio}</div></div>
+  `;
+  document.getElementById('popOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePop() { document.getElementById('popOverlay').classList.remove('open'); document.body.style.overflow=''; }
+function onOvClick(e) { if(e.target===document.getElementById('popOverlay')) closePop(); }
+document.addEventListener('keydown', e => { if(e.key==='Escape') closePop(); });
+showTab(activeTab);
+</script>
+</body>
+</html>

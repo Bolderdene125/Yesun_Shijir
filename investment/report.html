@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="mn" class="light">
+<head>
+  <meta charset="UTF-8"/>
+  <base href="/Yesun_Shijir/">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Тайлан | Есөн Шижир Инвест</title>
+  <script src="js/theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/shared.css"/>
+  <style>
+    .report-section-title {
+      font-size:20px; font-weight:800; font-family:var(--font-head);
+      margin-bottom:16px; padding-bottom:12px; border-bottom:2px solid var(--primary);
+      color:var(--primary);
+    }
+    .report-row {
+      display:flex; align-items:center; gap:16px;
+      padding:14px 20px; background:var(--bg-white);
+      border:1px solid var(--border); border-radius:var(--radius-lg);
+      margin-bottom:10px; cursor:pointer;
+      transition:border-color .15s, background .15s; text-decoration:none; color:inherit;
+    }
+    .report-row:hover { border-color:var(--primary); background:var(--bg-low); }
+    .report-row-icon { color:var(--primary); flex-shrink:0; }
+    .report-row-info { flex:1; }
+    .report-row-info p     { font-size:14px; font-weight:600; margin-bottom:2px; }
+    .report-row-info small { font-size:12px; color:var(--text-muted); font-family:var(--font-mono); }
+    .report-row-open { color:var(--text-muted); transition:color .15s; }
+    .report-row:hover .report-row-open { color:var(--primary); }
+    .report-section { margin-bottom:40px; }
+    .year-filter {
+      display:flex; gap:6px; flex-wrap:wrap; margin-bottom:28px;
+    }
+    .year-btn {
+      padding:7px 18px; border-radius:99px; font-size:13px; font-weight:700;
+      font-family:var(--font-mono); border:1.5px solid var(--border);
+      background:transparent; color:var(--text-muted); cursor:pointer; transition:all .15s;
+    }
+    .year-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    html.dark .year-btn.active { color:#000; }
+    .year-btn:hover:not(.active) { border-color:var(--primary); color:var(--primary); }
+  </style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+<main>
+  <div class="container section-pad">
+    <div class="breadcrumb">
+      <a href="index.html">Нүүр</a><span>/</span>
+      <span>Хөрөнгө оруулалт</span><span>/</span>
+      <span>Тайлан</span>
+    </div>
+    <div style="margin-bottom:32px">
+      <span class="page-tag">Тайлан</span>
+      <h1 class="page-title">Санхүүгийн тайлан</h1>
+      <p class="page-desc">Тайланг дарахад PDF файл шинэ цонхонд нээгдэнэ.</p>
+    </div>
+
+    <!-- Year filter -->
+    <div class="year-filter" id="yearFilter">
+      <button class="year-btn active" onclick="filterYear('all')">Бүгд</button>
+      <button class="year-btn" onclick="filterYear('2025')">2025</button>
+      <button class="year-btn" onclick="filterYear('2024')">2024</button>
+      <button class="year-btn" onclick="filterYear('2023')">2023</button>
+    </div>
+
+    <!-- Section 1: Annual audit -->
+    <div class="report-section" id="sect-annual">
+      <h2 class="report-section-title">Жилийн аудитаар баталгаажуулсан санхүүгийн тайлан</h2>
+      <div id="list-annual"></div>
+    </div>
+
+    <!-- Section 2: Operations reports -->
+    <div class="report-section" id="sect-ops">
+      <h2 class="report-section-title">Үйл ажиллагааны санхүүгийн тайлан</h2>
+      <div id="list-ops"></div>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="js/lang.js"></script>
+<script src="js/nav.js"></script>
+<script>
+const REPORTS = {
+  annual: [
+    { year:2024, title:'2024 оны жилийн эцсийн тайлан', date:'2025-01-20', url:'/assets/reports/annual-2024.pdf' },
+    { year:2023, title:'2023 оны жилийн эцсийн тайлан', date:'2024-01-18', url:'/assets/reports/annual-2023.pdf' },
+    { year:2022, title:'2022 оны жилийн эцсийн тайлан', date:'2023-01-15', url:'/assets/reports/annual-2022.pdf' },
+    { year:2021, title:'2021 оны жилийн эцсийн тайлан', date:'2022-01-10', url:'/assets/reports/annual-2021.pdf' },
+    { year:2020, title:'2020 оны жилийн эцсийн тайлан', date:'2021-01-12', url:'/assets/reports/annual-2020.pdf' },
+  ],
+  ops: [
+    { year:2025, title:'2025 оны Үйл ажиллагааны тайлан',  date:'2026-01-10', url:'/assets/reports/ops-2025.pdf' },
+    { year:2024, title:'2024 оны ТУЗ-ын Үйл ажиллагааны тайлан', date:'2025-03-15', url:'/assets/reports/tuz-2024.pdf' },
+    { year:2023, title:'2023 оны 3-р улиралын тайлан',     date:'2023-10-20', url:'/assets/reports/q3-2023.pdf' },
+  ]
+};
+
+function renderList(containerId, items) {
+  document.getElementById(containerId).innerHTML = items.length
+    ? items.map(r => `
+      <a class="report-row" href="${r.url}" target="_blank" rel="noopener">
+        <span class="material-symbols-outlined report-row-icon">picture_as_pdf</span>
+        <div class="report-row-info">
+          <p>${r.title}</p>
+          <small>${r.date}</small>
+        </div>
+        <span class="material-symbols-outlined report-row-open">open_in_new</span>
+      </a>`).join('')
+    : `<p style="color:var(--text-muted);font-size:14px;padding:16px 0">Тайлан олдсонгүй</p>`;
+}
+
+function filterYear(y) {
+  document.querySelectorAll('.year-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['all','2025','2024','2023'][i] === y);
+  });
+  const annual = y === 'all' ? REPORTS.annual : REPORTS.annual.filter(r => String(r.year) === y);
+  const ops    = y === 'all' ? REPORTS.ops    : REPORTS.ops.filter(r => String(r.year) === y);
+  renderList('list-annual', annual);
+  renderList('list-ops',    ops);
+  document.getElementById('sect-annual').style.display = annual.length ? '' : 'none';
+  document.getElementById('sect-ops').style.display    = ops.length    ? '' : 'none';
+}
+
+filterYear('all');
+</script>
+</body>
+</html>
